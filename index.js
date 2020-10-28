@@ -1,5 +1,3 @@
-import "./styles.css";
-
 function checkLocalStorage() {
   const toDoList = localStorage.getItem("toDoList");
   if (toDoList === null) {
@@ -22,9 +20,9 @@ const toDoList = checkLocalStorage();
 
 function boxCheck(event) {
   debugger;
-  //const getList = document.get  ElementById("List");
+  const getList = document.getElementById("List");
   const id = event.target.id + "-li";
-  //const targetCheckbox = document.getElementById(checkbox);
+  const targetCheckbox = document.getElementById(checkbox);
   const getId = document.getElementById(id);
   const newToDos = toDoList.filter((toDo) => toDo.toDo !== event.target.id);
   if (window.confirm("Do you really want to delete " + event.target.id + "?")) {
@@ -33,8 +31,9 @@ function boxCheck(event) {
   } else {
     uncheck(event);
   }
-  // if (targetCheckbox.checked === true) {
-  // }
+   if (targetCheckbox.checked === true) {
+       localStorage.getItem
+   }
 }
 
 function addLi(element) {
@@ -54,8 +53,8 @@ function addLi(element) {
   debugger;
   ol.insertAdjacentHTML("beforeend", li);
   console.log(element.toDo);
-  // const checkbox = document.getElementById(element.toDo);
-  // checkbox.addEventListener("change", boxCheck);
+  const checkbox = document.getElementById(element.toDo);
+  checkbox.addEventListener("change", boxCheck);
 }
 
 toDoList.forEach((element) => addLi(element));
