@@ -11,9 +11,7 @@ function uncheck(event) {
   const checkboxId = event.target.id;
   document.getElementById(checkboxId).checked = false;
 }
-
-const toDoList = checkLocalStorage();
-
+ 
 // function uncheck() {
 //   document.getElementById("myCheck").checked = false;
 // }
@@ -28,13 +26,11 @@ function boxCheck(event) {
   if (window.confirm("Do you really want to delete " + event.target.id + "?")) {
     localStorage.setItem("toDoList", JSON.stringify(newToDos));
     getId.remove();
-  } else {
-    uncheck(event);
   }
-   if (targetCheckbox.checked === true) {
-       localStorage.getItem
-   }
-}
+  else if (targetCheckbox.checked === true) {
+    const toDoArray = JSON.parse(toDoList);
+    
+  } 
 
 function addLi(element) {
   const ol = document.getElementsByTagName("ol")[0];
