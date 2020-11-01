@@ -7,6 +7,8 @@ function checkLocalStorage() {
   }
 }
 
+const toDoList = checkLocalStorage()
+
 function uncheck(event) {
   const checkboxId = event.target.id;
   document.getElementById(checkboxId).checked = false;
