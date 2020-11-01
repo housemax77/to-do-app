@@ -46,7 +46,6 @@ function addLi(element) {
     " at " +
     element.time +
     "</li>";
-  debugger;
   ol.insertAdjacentHTML("beforeend", li);
   console.log(element.toDo);
   const checkbox = document.getElementById(element.toDo);
