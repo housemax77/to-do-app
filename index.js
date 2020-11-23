@@ -40,18 +40,21 @@ function addLi(element) {
     '<li id="' +
     element.toDo +
     "-li" +
-    '"> <button type= id="' +
-    "Delete Item " +
+    '"> <button id="' +
     element.toDo +
-    '"> Delete </button> ' +
+    '"> Delete </button>' +
     element.toDo +
     " at " +
     element.time +
+    // " <input type='checkbox' id=" +
+    // element.toDo +
+    // "-checkbox";
     "</li>";
   ol.insertAdjacentHTML("beforeend", li);
   console.log(element.toDo);
-  const checkbox = document.getElementById(element.toDo);
-  checkbox.addEventListener("change", boxCheck);
+  //const checkbox = document.getElementById(element.toDo);
+  // document.getElementById(element.toDo)
+  window.addEventListener("check", boxCheck);
 }
 
 toDoList.forEach((element) => addLi(element));
