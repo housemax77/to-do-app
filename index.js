@@ -93,6 +93,21 @@ function testToDo(toDo, toDoInfos) {
   }
   return true;
 }
+function deleteToDo(event, arrayItem) {
+  const getToDoList = localStorage.getItem("toDoList");
+  var makeArray = JSON.parse(getToDoList);
+  const rightIndex = (arrayItem) => arrayItem === event;
+  debugger;
+  if (confirm("Do you want to delete " + event.target.id + "?")) {
+    makeArray.splice(rightIndex, 1);
+    localStorage.setItem("toDoList", JSON.stringify(makeArray));
+    location.reload();
+    toDoList.forEach((element) => addLi(element));
+    // debugger;
+  } else {
+    return false;
+  }
+}
 
 function testTime(time) {
   if (time === "") {
