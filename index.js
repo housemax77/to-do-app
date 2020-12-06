@@ -102,24 +102,4 @@ function testTime(time) {
   return true;
 }
 
-function handleSubmit(event) {
-  event.preventDefault();
-  const toDo = document.getElementById("toDo").value;
-  const time = document.getElementById("time").value;
-  const isItemValid = testToDo(toDo, toDoList);
-  const isTimeValid = testTime(time);
-
-  if (isItemValid === true && isTimeValid === true) {
-    const toDoInfo = {
-      done: false,
-      toDo: toDo,
-      time: time
-    };
-    toDoList.push(toDoInfo);
-    localStorage.setItem("toDoList", JSON.stringify(toDoList));
-    addLi(toDoInfo);
-    form.reset();
-  }
-}
-
 form.addEventListener("submit", handleSubmit);
