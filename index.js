@@ -65,9 +65,9 @@ function addLi(element) {
     element.toDo +
     " at " +
     element.time +
-    // " <input type='checkbox' id=" +
-    // element.toDo +
-    // "-checkbox";
+    "<input type='checkbox' id='" +
+    element.toDo +
+    "-checkbox' />" +
     "</li>";
   ol.insertAdjacentHTML("beforeend", li);
   console.log(element.toDo);
