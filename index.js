@@ -33,9 +33,6 @@ function uncheck(event) {
   document.getElementById(checkboxId).checked = false;
 }
  
-// function uncheck() {
-//   document.getElementById("myCheck").checked = false;
-// }
 
 function boxCheck(event) {
   debugger;
