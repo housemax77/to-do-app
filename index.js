@@ -93,11 +93,11 @@ function testToDo(toDo, toDoInfos) {
   }
   return true;
 }
-function deleteToDo(event, arrayItem) {
+function deleteToDo(event) {
+  debugger;
   const getToDoList = localStorage.getItem("toDoList");
   var makeArray = JSON.parse(getToDoList);
-  const rightIndex = (arrayItem) => arrayItem === event;
-  debugger;
+  const rightIndex = makeArray.indexOf(event.target.id - "-delete");
   if (confirm("Do you want to delete " + event.target.id + "?")) {
     makeArray.splice(rightIndex, 1);
     localStorage.setItem("toDoList", JSON.stringify(makeArray));
