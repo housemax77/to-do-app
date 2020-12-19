@@ -68,12 +68,14 @@ function addLi(element) {
     element.toDo +
     "-checkbox' />" +
     "</li>";
-
   ol.insertAdjacentHTML("beforeend", li);
+  const deleteButton = document.getElementById(element.toDo + "-delete");
+  const checkbox = document.getElementById(element.toDo + "-checkbox");
+  deleteButton.addEventListener("click", deleteToDo);
+  checkbox.addEventListener("change", boxCheck);
   console.log(element.toDo);
-  const checkbox = document.getElementById(element.toDo);
+  liArray.push(element.toDo);
   document.getElementById(element.toDo);
-  window.addEventListener("check", boxCheck);
 }
 
 document.getElementsByTagName("ol")[0].addEventListener("click", deleteToDo);
