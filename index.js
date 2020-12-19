@@ -27,6 +27,7 @@ function checkLocalStorage() {
 }
 
 const toDoList = checkLocalStorage();
+const liArray = [];
 
 function uncheck(event) {
   const checkboxId = event.target.id;
