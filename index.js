@@ -59,6 +59,7 @@ function addLi(element) {
     "-li" +
     '"> <button id="' +
     element.toDo +
+    "-delete" +
     '"> Delete </button>' +
     element.toDo +
     " at " +
