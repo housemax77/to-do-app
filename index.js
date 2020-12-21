@@ -1,3 +1,5 @@
+const toDoList = localStorage.getItem("toDoList");
+
 function handleSubmit(event) {
   event.preventDefault();
   const toDo = document.getElementById("toDo").value;
@@ -18,7 +20,6 @@ function handleSubmit(event) {
   }
 }
 function checkLocalStorage() {
-  const toDoList = localStorage.getItem("toDoList");
   if (toDoList === null) {
     return [];
   } else {
