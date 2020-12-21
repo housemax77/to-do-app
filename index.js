@@ -56,7 +56,17 @@ function addLi(element) {
   document.getElementById(element.toDo);
 }
 
-document.getElementsByTagName("ol")[0].addEventListener("click", deleteToDo);
+function boxCheck(event) {
+  const toDoThatWasChecked = toDoList.find(
+    (item) => item.toDo === event.target.id
+  );
+  debugger;
+  if (toDoList.find((element) => (element.done = true))) {
+    toDoThatWasChecked.done = true;
+    localStorage.setItem("toDoList", JSON.stringify(toDoThatWasChecked));
+  } else {
+  }
+}
 
 toDoList.forEach((element) => addLi(element));
 
