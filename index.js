@@ -27,30 +27,7 @@ function checkLocalStorage() {
   }
 }
 
-const toDoList = checkLocalStorage();
 const liArray = [];
-
-function uncheck(event) {
-  const checkboxId = event.target.id;
-  document.getElementById(checkboxId).checked = false;
-}
- 
-
-function boxCheck(event) {
-  debugger;
-  const getList = document.getElementById("List");
-  const id = event.target.id + "-li";
-  const targetCheckbox = document.getElementById(checkbox);
-  const getId = document.getElementById(id);
-  const newToDos = toDoList.filter((toDo) => toDo.toDo !== event.target.id);
-  if (window.confirm("Do you really want to delete " + event.target.id + "?")) {
-    localStorage.setItem("toDoList", JSON.stringify(newToDos));
-    getId.remove();
-  }
-  else if (targetCheckbox.checked === true) {
-    const toDoArray = JSON.parse(toDoList);
-    
-  } 
 
 function addLi(element) {
   const ol = document.getElementsByTagName("ol")[0];
