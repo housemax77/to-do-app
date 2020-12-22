@@ -90,7 +90,11 @@ function deleteToDo(event) {
   const getToDoList = localStorage.getItem("toDoList");
   var makeArray = JSON.parse(getToDoList);
   const rightIndex = makeArray.indexOf(event.target.id - "-delete");
-  if (confirm("Do you want to delete " + event.target.id + "?")) {
+  if (
+    confirm(
+      "Do you want to delete " + event.target.id.replace("-delete", "") + "?"
+    )
+  ) {
     makeArray.splice(rightIndex, 1);
     localStorage.setItem("toDoList", JSON.stringify(makeArray));
     location.reload();
