@@ -1,4 +1,15 @@
-const toDoList = localStorage.getItem("toDoList");
+function getToDoList() {
+  var toDoListFromLocalStorage = localStorage.getItem("toDoList");
+
+  if (toDoListFromLocalStorage === null) {
+    var toDoList = [];
+  } else {
+    var toDoList = JSON.parse(toDoListFromLocalStorage);
+  }
+  return toDoList;
+}
+
+const liArray = [];
 
 function handleSubmit(event) {
   event.preventDefault();
@@ -48,18 +59,21 @@ function addLi(element) {
 }
 
 function boxCheck(event) {
+  //
+  const toDoList = getToDoList();
   const toDoThatWasChecked = toDoList.find(
-    (item) => item.toDo === event.target.id
+    (item) => item.toDo === event.target.id.replace("-checkbox", "")
   );
   debugger;
-  if (toDoList.find((element) => (element.done = true))) {
-    toDoThatWasChecked.done = true;
-    localStorage.setItem("toDoList", JSON.stringify(toDoThatWasChecked));
+  if (toDoThatWasChecked.done === true) {
+    toDoList[toDoThatWasChecked].done = true;
   } else {
+    toDoList[toDoThatWasChecked].done = false;
   }
+  localStorage.setItem("toDoList", JSON.stringify(toDoThatWasChecked));
 }
 
-toDoList.forEach((element) => addLi(element));
+getToDoList().forEach((element) => addLi(element));
 
 const form = document.getElementById("form");
 
@@ -78,16 +92,15 @@ function testToDo(toDo, toDoInfos) {
 }
 function deleteToDo(event) {
   debugger;
-  const getToDoList = localStorage.getItem("toDoList");
-  var makeArray = JSON.parse(getToDoList);
-  const rightIndex = makeArray.indexOf(event.target.id - "-delete");
+  const toDoList = getToDoList();
+  const rightIndex = toDoList.indexOf(event.target.id - "-delete");
   if (
     confirm(
       "Do you want to delete " + event.target.id.replace("-delete", "") + "?"
     )
   ) {
-    makeArray.splice(rightIndex, 1);
-    localStorage.setItem("toDoList", JSON.stringify(makeArray));
+    toDoList.splice(rightIndex, 1);
+    localStorage.setItem("toDoList", JSON.stringify(toDoList));
     location.reload();
     toDoList.forEach((element) => addLi(element));
     // debugger;
