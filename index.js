@@ -59,7 +59,7 @@ function addLi(element) {
 }
 
 function boxCheck(event) {
-  //
+  //make toDoThatWasChecked findIndex instead of find also change name and make decloration for toDoList[toDoThatWasChecked]
   const toDoList = getToDoList();
   const toDoThatWasChecked = toDoList.find(
     (item) => item.toDo === event.target.id.replace("-checkbox", "")
