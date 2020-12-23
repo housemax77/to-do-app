@@ -19,15 +19,6 @@ function handleSubmit(event) {
     form.reset();
   }
 }
-function checkLocalStorage() {
-  if (toDoList === null) {
-    return [];
-  } else {
-    return JSON.parse(toDoList);
-  }
-}
-
-const liArray = [];
 
 function addLi(element) {
   const ol = document.getElementsByTagName("ol")[0];
