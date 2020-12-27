@@ -5,7 +5,6 @@ function getToDoList() {
   } else {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
   }
-  debugger;
   return toDoList;
 }
 
@@ -13,6 +12,8 @@ const liArray = [];
 
 function handleSubmit(event) {
   event.preventDefault();
+  const toDoList = getToDoList();
+
   const toDo = document.getElementById("toDo").value;
   const time = document.getElementById("time").value;
   const isItemValid = testToDo(toDo, toDoList);
