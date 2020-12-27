@@ -1,11 +1,11 @@
 function getToDoList() {
-  var toDoListFromLocalStorage = localStorage.getItem("toDoList");
-
+  const toDoListFromLocalStorage = localStorage.getItem("toDoList");
   if (toDoListFromLocalStorage === null) {
     var toDoList = [];
   } else {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
   }
+  debugger;
   return toDoList;
 }
 
