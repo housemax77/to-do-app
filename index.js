@@ -61,16 +61,18 @@ function addLi(element) {
 function boxCheck(event) {
   //make toDoThatWasChecked findIndex instead of find also change name and make decloration for toDoList[toDoThatWasChecked]
   const toDoList = getToDoList();
-  const toDoThatWasChecked = toDoList.find(
+  const indexThatWasChecked = toDoList.findIndex(
     (item) => item.toDo === event.target.id.replace("-checkbox", "")
   );
-  debugger;
-  if (toDoThatWasChecked.done === true) {
-    toDoList[toDoThatWasChecked].done = true;
+  const findIndexInToDoList = toDoList[indexThatWasChecked];
+  if (event.target.checked === true) {
+    findIndexInToDoList.done = true;
   } else {
-    toDoList[toDoThatWasChecked].done = false;
+  debugger;
+    findIndexInToDoList.done = false;
   }
-  localStorage.setItem("toDoList", JSON.stringify(toDoThatWasChecked));
+  debugger;
+  localStorage.setItem("toDoList", JSON.stringify(findIndexInToDoList));
 }
 
 getToDoList().forEach((element) => addLi(element));
