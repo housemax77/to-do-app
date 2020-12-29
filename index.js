@@ -65,28 +65,28 @@ function boxCheck(event) {
   const indexThatWasChecked = toDoList.findIndex(
     (item) => item.toDo === event.target.id.replace("-checkbox", "")
   );
-  const findIndexInToDoList = toDoList[indexThatWasChecked];
+  const toDoToUpdate = toDoList[indexThatWasChecked];
   if (event.target.checked === true) {
-    findIndexInToDoList.done = true;
+    toDoToUpdate.done = true;
   } else {
   debugger;
-    findIndexInToDoList.done = false;
+    toDoToUpdate.done = false;
   }
   debugger;
-  localStorage.setItem("toDoList", JSON.stringify(findIndexInToDoList));
+  localStorage.setItem("toDoList", JSON.stringify(toDoList));
 }
 
 getToDoList().forEach((element) => addLi(element));
 
 const form = document.getElementById("form");
 
-function testToDo(toDo, toDoInfos) {
+function testToDo(toDo, toDoInfo) {
   if (toDo === "") {
     alert("You can not submit empty to do's.");
     return false;
   }
 
-  if (toDoInfos.find((todo) => todo.toDo === toDo)) {
+  if (toDoInfo.find((todo) => todo.toDo === toDo)) {
     alert("You can not submit duplicate to do's.");
     form.reset();
     return false;
