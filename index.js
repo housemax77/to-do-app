@@ -5,6 +5,7 @@ function getToDoList() {
   } else {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
   }
+  debugger;
   return toDoList;
 }
 
@@ -33,6 +34,13 @@ function handleSubmit(event) {
 }
 
 function addLi(element) {
+  debugger;
+  if (element.done === true) {
+    debugger;
+    var isChecked = " type='checkbox' + checked ";
+  } else {
+    var isChecked = " type='checkbox'";
+  }
   const ol = document.getElementsByTagName("ol")[0];
   const li =
     '<li id="' +
@@ -45,7 +53,9 @@ function addLi(element) {
     element.toDo +
     " at " +
     element.time +
-    "<input type='checkbox' id='" +
+    "<input" +
+    isChecked +
+    " id='" +
     element.toDo +
     "-checkbox' />" +
     "</li>";
@@ -53,6 +63,7 @@ function addLi(element) {
   const deleteButton = document.getElementById(element.toDo + "-delete");
   const checkbox = document.getElementById(element.toDo + "-checkbox");
   deleteButton.addEventListener("click", deleteToDo);
+  debugger;
   checkbox.addEventListener("change", boxCheck);
   console.log(element.toDo);
   liArray.push(element.toDo);
@@ -69,7 +80,7 @@ function boxCheck(event) {
   if (event.target.checked === true) {
     toDoToUpdate.done = true;
   } else {
-  debugger;
+    debugger;
     toDoToUpdate.done = false;
   }
   debugger;
