@@ -1,13 +1,16 @@
 body {
-    font-family: sans-serif;
-  }
-  
-  #heading {
-    text-align: center;
-  }
-  
-  #toDoInput {
-    color: aqua;
-    background-color: black;
-  }
-  
+  font-family: sans-serif;
+}
+
+#heading {
+  text-align: center;
+}
+
+#toDoInput {
+  color: aqua;
+  background-color: black;
+}
+
+.checked {
+  text-decoration-line: line-through;
+}

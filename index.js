@@ -49,11 +49,14 @@ function addLi(element) {
     '"> <button id="' +
     element.toDo +
     "-delete" +
-    '"> Delete </button>' +
+    '"> Delete </button>"' +
+    // + <div id=
+    // element.toDo +
+    // "-liText >" +
     element.toDo +
     " at " +
     element.time +
-    "<input" +
+    " </div> <input" +
     isChecked +
     " id='" +
     element.toDo +
@@ -64,19 +67,26 @@ function addLi(element) {
   const checkbox = document.getElementById(element.toDo + "-checkbox");
   deleteButton.addEventListener("click", deleteToDo);
   debugger;
-  checkbox.addEventListener("change", boxCheck);
+  checkbox.addEventListener("click", boxCheck);
   console.log(element.toDo);
   liArray.push(element.toDo);
-  document.getElementById(element.toDo);
 }
 
 function boxCheck(event) {
-  //make toDoThatWasChecked findIndex instead of find also change name and make decloration for toDoList[toDoThatWasChecked]
+  debugger;
   const toDoList = getToDoList();
   const indexThatWasChecked = toDoList.findIndex(
     (item) => item.toDo === event.target.id.replace("-checkbox", "")
   );
   const toDoToUpdate = toDoList[indexThatWasChecked];
+  debugger;
+  // const liId = toDoToUpdate.toDo.replace(
+  //   toDoToUpdate.toDo,
+  //   toDoToUpdate.toDo + "-liText"
+  //   );
+  const liId = event.target.id.replace("checkbox", "li");
+  debugger;
+  document.getElementById(liId).classList.add("checked");
   if (event.target.checked === true) {
     toDoToUpdate.done = true;
   } else {
