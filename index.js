@@ -38,12 +38,14 @@ function addLi(element) {
   if (element.done === true) {
     debugger;
     var isChecked = " type='checkbox' + checked ";
+    var lisId = '<li class = "checked"' + 'id="';
   } else {
     var isChecked = " type='checkbox'";
+    var lisId = '<li id="';
   }
   const ol = document.getElementsByTagName("ol")[0];
   const li =
-    '<li id="' +
+    lisId +
     element.toDo +
     "-li" +
     '"> <button id="' +
@@ -86,12 +88,13 @@ function boxCheck(event) {
   //   );
   const liId = event.target.id.replace("checkbox", "li");
   debugger;
-  document.getElementById(liId).classList.add("checked");
   if (event.target.checked === true) {
     toDoToUpdate.done = true;
+    document.getElementById(liId).classList.add("checked");
   } else {
     debugger;
     toDoToUpdate.done = false;
+    document.getElementById(liId).classList.remove("checked");
   }
   debugger;
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
