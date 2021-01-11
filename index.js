@@ -39,6 +39,7 @@ function addLi(element) {
     debugger;
     var isChecked = " type='checkbox' + checked ";
     var lisId = '<li class = "checked"' + 'id="';
+    input.setAttribute("value", element.toDo);
   } else {
     var isChecked = " type='checkbox'";
     var lisId = '<li id="';
@@ -52,18 +53,23 @@ function addLi(element) {
     element.toDo +
     "-delete" +
     '"> Delete </button>"' +
-    // + <div id=
-    // element.toDo +
-    // "-liText >" +
+    "<input type = 'textbox' id ='" +
     element.toDo +
+    "-textbox'>" +
+    "</input>" +
     " at " +
+    "<input type = 'textbox' id ='" +
     element.time +
+    "-textbox'>" +
+    "</input>" +
     " </div> <input" +
     isChecked +
     " id='" +
     element.toDo +
     "-checkbox' />" +
     "</li>";
+  // ol.replace("undefined", "");
+  debugger;
   ol.insertAdjacentHTML("beforeend", li);
   const deleteButton = document.getElementById(element.toDo + "-delete");
   const checkbox = document.getElementById(element.toDo + "-checkbox");
@@ -72,6 +78,20 @@ function addLi(element) {
   checkbox.addEventListener("click", boxCheck);
   console.log(element.toDo);
   liArray.push(element.toDo);
+  const toDoCheckBox = element.toDo.replace(
+    element.toDo,
+    element.toDo + "-textbox"
+  );
+  const toDoCheckboxId = document.getElementById(toDoCheckBox);
+  debugger;
+  toDoCheckboxId.value = element.toDo;
+  const timeCheckBox = element.time.replace(
+    element.time,
+    element.time + "-textbox"
+  );
+  const timeCheckboxId = document.getElementById(timeCheckBox);
+  debugger;
+  timeCheckboxId.value = element.time;
 }
 
 function boxCheck(event) {
