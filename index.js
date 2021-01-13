@@ -92,6 +92,37 @@ function addLi(element) {
   const timeCheckboxId = document.getElementById(timeCheckBox);
   debugger;
   timeCheckboxId.value = element.time;
+  timeCheckboxId.addEventListener("change", timeChange);
+  toDoCheckboxId.value = element.toDo;
+  toDoCheckboxId.addEventListener("change", toDoChange);
+
+  debugger;
+}
+
+function timeChange(event) {
+  debugger;
+  const toDoList = getToDoList();
+  const indexThatWasChecked = toDoList.findIndex(
+    (item) => item.time === event.target.id.replace("-textbox", "")
+  );
+  const toDoToUpdate = toDoList[indexThatWasChecked];
+  toDoToUpdate.time = event.target.value;
+  debugger;
+  localStorage.setItem("toDoList", JSON.stringify(toDoList));
+  debugger;
+}
+
+function toDoChange(event) {
+  debugger;
+  const toDoList = getToDoList();
+  const indexThatWasChecked = toDoList.findIndex(
+    (item) => item.toDo === event.target.id.replace("-textbox", "")
+  );
+  const toDoToUpdate = toDoList[indexThatWasChecked];
+  toDoToUpdate.toDo = event.target.value;
+  debugger;
+  localStorage.setItem("toDoList", JSON.stringify(toDoList));
+  debugger;
 }
 
 function boxCheck(event) {
