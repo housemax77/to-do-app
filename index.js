@@ -5,7 +5,7 @@ function getToDoList() {
   } else {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
   }
-  debugger;
+
   return toDoList;
 }
 
@@ -34,9 +34,7 @@ function handleSubmit(event) {
 }
 
 function addLi(element) {
-  debugger;
   if (element.done === true) {
-    debugger;
     var isChecked = " type='checkbox' + checked ";
     var lisId = '<li class = "checked"' + 'id="';
     input.setAttribute("value", element.toDo);
@@ -69,12 +67,12 @@ function addLi(element) {
     "-checkbox' />" +
     "</li>";
   // ol.replace("undefined", "");
-  debugger;
+
   ol.insertAdjacentHTML("beforeend", li);
   const deleteButton = document.getElementById(element.toDo + "-delete");
   const checkbox = document.getElementById(element.toDo + "-checkbox");
   deleteButton.addEventListener("click", deleteToDo);
-  debugger;
+
   checkbox.addEventListener("click", boxCheck);
   console.log(element.toDo);
   liArray.push(element.toDo);
@@ -83,71 +81,63 @@ function addLi(element) {
     element.toDo + "-textbox"
   );
   const toDoCheckboxId = document.getElementById(toDoCheckBox);
-  debugger;
+
   toDoCheckboxId.value = element.toDo;
   const timeCheckBox = element.time.replace(
     element.time,
     element.time + "-textbox"
   );
   const timeCheckboxId = document.getElementById(timeCheckBox);
-  debugger;
+
   timeCheckboxId.value = element.time;
   timeCheckboxId.addEventListener("change", timeChange);
   toDoCheckboxId.value = element.toDo;
   toDoCheckboxId.addEventListener("change", toDoChange);
-
-  debugger;
 }
 
 function timeChange(event) {
-  debugger;
   const toDoList = getToDoList();
   const indexThatWasChecked = toDoList.findIndex(
     (item) => item.time === event.target.id.replace("-textbox", "")
   );
   const toDoToUpdate = toDoList[indexThatWasChecked];
   toDoToUpdate.time = event.target.value;
-  debugger;
+
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  debugger;
 }
 
 function toDoChange(event) {
-  debugger;
   const toDoList = getToDoList();
   const indexThatWasChecked = toDoList.findIndex(
     (item) => item.toDo === event.target.id.replace("-textbox", "")
   );
   const toDoToUpdate = toDoList[indexThatWasChecked];
   toDoToUpdate.toDo = event.target.value;
-  debugger;
+
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  debugger;
 }
 
 function boxCheck(event) {
-  debugger;
   const toDoList = getToDoList();
   const indexThatWasChecked = toDoList.findIndex(
     (item) => item.toDo === event.target.id.replace("-checkbox", "")
   );
   const toDoToUpdate = toDoList[indexThatWasChecked];
-  debugger;
+
   // const liId = toDoToUpdate.toDo.replace(
   //   toDoToUpdate.toDo,
   //   toDoToUpdate.toDo + "-liText"
   //   );
   const liId = event.target.id.replace("checkbox", "li");
-  debugger;
+
   if (event.target.checked === true) {
     toDoToUpdate.done = true;
     document.getElementById(liId).classList.add("checked");
   } else {
-    debugger;
     toDoToUpdate.done = false;
     document.getElementById(liId).classList.remove("checked");
   }
-  debugger;
+
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
 }
 
@@ -169,7 +159,6 @@ function testToDo(toDo, toDoInfo) {
   return true;
 }
 function deleteToDo(event) {
-  debugger;
   const toDoList = getToDoList();
   const rightIndex = toDoList.indexOf(event.target.id - "-delete");
   if (
@@ -181,7 +170,7 @@ function deleteToDo(event) {
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     location.reload();
     toDoList.forEach((element) => addLi(element));
-    // debugger;
+    //
   } else {
     return false;
   }
