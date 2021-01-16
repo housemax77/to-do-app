@@ -5,7 +5,7 @@ function getToDoList() {
   } else {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
   }
-  debugger;
+
   return toDoList;
 }
 
@@ -27,16 +27,15 @@ function handleSubmit(event) {
       time: time,
     };
     toDoList.push(toDoInfo);
+    const index = toDoList.length - 1;
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
-    addLi(toDoInfo);
+    addLi(toDoInfo, index);
     form.reset();
   }
 }
 
-function addLi(element) {
-  debugger;
+function addLi(element, index) {
   if (element.done === true) {
-    debugger;
     var isChecked = " type='checkbox' + checked ";
     var lisId = '<li class = "checked"' + 'id="';
     input.setAttribute("value", element.toDo);
@@ -47,20 +46,22 @@ function addLi(element) {
   const ol = document.getElementsByTagName("ol")[0];
   const li =
     lisId +
-    element.toDo +
-    "-li" +
+    "li-" +
+    index +
     '"> <button id="' +
     element.toDo +
     "-delete" +
-    '"> Delete </button>"' +
-    "<input type = 'textbox' id ='" +
+    '"> Delete </button>' +
+    "<div id ='toDo-" +
+    index +
+    "'> " +
     element.toDo +
-    "-textbox'>" +
-    "</input>" +
+    " </div>" +
     " at " +
-    "<input type = 'textbox' id ='" +
+    "<div id ='time-" +
+    index +
+    "'>" +
     element.time +
-    "-textbox'>" +
     "</input>" +
     " </div> <input" +
     isChecked +
@@ -69,12 +70,10 @@ function addLi(element) {
     "-checkbox' />" +
     "</li>";
   // ol.replace("undefined", "");
-  debugger;
   ol.insertAdjacentHTML("beforeend", li);
   const deleteButton = document.getElementById(element.toDo + "-delete");
   const checkbox = document.getElementById(element.toDo + "-checkbox");
   deleteButton.addEventListener("click", deleteToDo);
-  debugger;
   checkbox.addEventListener("click", boxCheck);
   console.log(element.toDo);
   liArray.push(element.toDo);
@@ -83,75 +82,61 @@ function addLi(element) {
     element.toDo + "-textbox"
   );
   const toDoCheckboxId = document.getElementById(toDoCheckBox);
-  debugger;
   toDoCheckboxId.value = element.toDo;
   const timeCheckBox = element.time.replace(
     element.time,
     element.time + "-textbox"
   );
   const timeCheckboxId = document.getElementById(timeCheckBox);
-  debugger;
   timeCheckboxId.value = element.time;
-  timeCheckboxId.addEventListener("change", timeChange);
+  timeCheckboxId.addEventListener("click", timeOrToDoChange);
   toDoCheckboxId.value = element.toDo;
-  toDoCheckboxId.addEventListener("change", toDoChange);
-
-  debugger;
+  toDoCheckboxId.addEventListener("click", timeOrToDoChange);
 }
 
-function timeChange(event) {
-  debugger;
+function timeOrToDoChange(event) {
   const toDoList = getToDoList();
-  const indexThatWasChecked = toDoList.findIndex(
-    (item) => item.time === event.target.id.replace("-textbox", "")
-  );
+  debugger;
   const toDoToUpdate = toDoList[indexThatWasChecked];
-  toDoToUpdate.time = event.target.value;
-  debugger;
+  const ol = document.getElementsByTagName("ol");
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  debugger;
-}
-
-function toDoChange(event) {
-  debugger;
-  const toDoList = getToDoList();
-  const indexThatWasChecked = toDoList.findIndex(
-    (item) => item.toDo === event.target.id.replace("-textbox", "")
-  );
-  const toDoToUpdate = toDoList[indexThatWasChecked];
-  toDoToUpdate.toDo = event.target.value;
-  debugger;
-  localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  debugger;
+  if (document.getElementsByTagName("div") !== null) {
+    ol.innerHTML("<div", "<input type = 'textbox'");
+    ol.replace(
+      "</div>",
+      "</input> <button onClick='timeOrToDoChange()'> Enter </button>"
+    );
+  } else {
+    ol.replace("<input type = 'textbox'", "<div");
+    ol.replace("</input>", "</div>");
+  }
 }
 
 function boxCheck(event) {
-  debugger;
   const toDoList = getToDoList();
   const indexThatWasChecked = toDoList.findIndex(
     (item) => item.toDo === event.target.id.replace("-checkbox", "")
   );
   const toDoToUpdate = toDoList[indexThatWasChecked];
-  debugger;
+
   // const liId = toDoToUpdate.toDo.replace(
   //   toDoToUpdate.toDo,
   //   toDoToUpdate.toDo + "-liText"
   //   );
   const liId = event.target.id.replace("checkbox", "li");
-  debugger;
+
   if (event.target.checked === true) {
     toDoToUpdate.done = true;
     document.getElementById(liId).classList.add("checked");
   } else {
-    debugger;
     toDoToUpdate.done = false;
     document.getElementById(liId).classList.remove("checked");
   }
-  debugger;
+
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
 }
 
-getToDoList().forEach((element) => addLi(element));
+getToDoList().forEach((element, index) => addLi(element, index));
 
 const form = document.getElementById("form");
 
@@ -169,7 +154,6 @@ function testToDo(toDo, toDoInfo) {
   return true;
 }
 function deleteToDo(event) {
-  debugger;
   const toDoList = getToDoList();
   const rightIndex = toDoList.indexOf(event.target.id - "-delete");
   if (
@@ -180,8 +164,8 @@ function deleteToDo(event) {
     toDoList.splice(rightIndex, 1);
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     location.reload();
-    toDoList.forEach((element) => addLi(element));
-    // debugger;
+    toDoList.forEach((element, index) => addLi(element, index));
+    //
   } else {
     return false;
   }
