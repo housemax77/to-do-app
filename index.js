@@ -184,6 +184,7 @@ function deleteToDo(event) {
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     location.reload();
     toDoList.forEach((element, index) => addLi(element, index));
+
     //
   } else {
     return false;
