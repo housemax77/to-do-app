@@ -14,3 +14,7 @@ body {
 .checked {
   text-decoration-line: line-through;
 }
+
+.hidden {
+  display: none;
+}

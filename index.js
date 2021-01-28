@@ -27,94 +27,109 @@ function handleSubmit(event) {
       time: time,
     };
     toDoList.push(toDoInfo);
+    const index = toDoList.length - 1;
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
-    addLi(toDoInfo);
+    addLi(toDoInfo, index);
     form.reset();
   }
 }
 
-function addLi(element) {
+function addLi(element, index) {
+  const toDoList = getToDoList();
   if (element.done === true) {
-    var isChecked = " type='checkbox' + checked ";
+    var isChecked = " type= 'checkbox' + checked ";
     var lisId = '<li class = "checked"' + 'id="';
     input.setAttribute("value", element.toDo);
   } else {
-    var isChecked = " type='checkbox'";
+    var isChecked = " type= 'checkbox'";
     var lisId = '<li id="';
   }
   const ol = document.getElementsByTagName("ol")[0];
   const li =
     lisId +
-    element.toDo +
-    "-li" +
+    "li-" +
+    index +
     '"> <button id="' +
     element.toDo +
     "-delete" +
-    '"> Delete </button>"' +
-    "<input type = 'textbox' id ='" +
+    '"> Delete </button>' +
+    "<div id = 'textForTimeAndToDo" +
+    index +
+    "'>" +
+    "<div id ='toDo-" +
+    index +
+    "'> " +
     element.toDo +
-    "-textbox'>" +
-    "</input>" +
+    " </div>" +
     " at " +
-    "<input type = 'textbox' id ='" +
+    "<div id ='time-" +
+    index +
+    "'>" +
     element.time +
-    "-textbox'>" +
     "</input>" +
-    " </div> <input" +
+    "<div id ='toDo2-" +
+    index +
+    "'> <input type = 'textbox' value ='" +
+    element.toDo +
+    "'>" +
+    "</input>" +
+    "</div>" +
+    " at " +
+    "</div>" +
+    "<div id = 'textboxsAndEnterButton" +
+    index +
+    "'>" +
+    "<div id ='time2-" +
+    index +
+    "'> <input type = 'textbox' value ='" +
+    element.time +
+    "'>" +
+    "</input> <div id ='enterButton-" +
+    index +
+    "'> <button type = 'submit'>" +
+    "Confirm Text Value" +
+    "</button>" +
+    "</input>" +
+    " </div> <input " +
     isChecked +
     " id='" +
     element.toDo +
-    "-checkbox' />" +
+    "-checkbox" +
+    index +
+    "'/>" +
     "</li>";
-  // ol.replace("undefined", "");
-
+  const indexToString = index.toString();
   ol.insertAdjacentHTML("beforeend", li);
+  // ol.replace("undefined", "");
   const deleteButton = document.getElementById(element.toDo + "-delete");
-  const checkbox = document.getElementById(element.toDo + "-checkbox");
   deleteButton.addEventListener("click", deleteToDo);
-
-  checkbox.addEventListener("click", boxCheck);
   console.log(element.toDo);
   liArray.push(element.toDo);
-  const toDoCheckBox = element.toDo.replace(
-    element.toDo,
-    element.toDo + "-textbox"
-  );
-  const toDoCheckboxId = document.getElementById(toDoCheckBox);
-
-  toDoCheckboxId.value = element.toDo;
-  const timeCheckBox = element.time.replace(
-    element.time,
-    element.time + "-textbox"
-  );
-  const timeCheckboxId = document.getElementById(timeCheckBox);
-
-  timeCheckboxId.value = element.time;
-  timeCheckboxId.addEventListener("change", timeChange);
-  toDoCheckboxId.value = element.toDo;
-  toDoCheckboxId.addEventListener("change", toDoChange);
+  const checkboxQuery = element.toDo + "-checkbox" + indexToString;
+  const checkbox = document.getElementById(checkboxQuery);
+  debugger;
+  checkbox.addEventListener("click", boxCheck);
+  const toDoCheckbox = document.getElementById("toDo-" + indexToString);
+  const timeCheckbox = document.getElementById("time-" + indexToString);
+  timeCheckbox.addEventListener("click", hideTextDiv);
+  toDoCheckbox.addEventListener("click", hideTextDiv);
+  const enterButton = document.getElementById("enterButton-" + indexToString);
+  enterButton.addEventListener("click", hideTextboxDiv);
 }
 
-function timeChange(event) {
-  const toDoList = getToDoList();
-  const indexThatWasChecked = toDoList.findIndex(
-    (item) => item.time === event.target.id.replace("-textbox", "")
+function hideTextboxDiv(event) {
+  const index = event.target.id.split("-");
+  const textboxsAndEnter = document.getElementById(
+    "textboxsAndEnterButton" + index(1)
   );
-  const toDoToUpdate = toDoList[indexThatWasChecked];
-  toDoToUpdate.time = event.target.value;
-
-  localStorage.setItem("toDoList", JSON.stringify(toDoList));
+  textboxsAndEnter.classList.toggle("hidden");
 }
 
-function toDoChange(event) {
-  const toDoList = getToDoList();
-  const indexThatWasChecked = toDoList.findIndex(
-    (item) => item.toDo === event.target.id.replace("-textbox", "")
+function hideTextDiv(event) {
+  const index = event.target.id.split("-");
+  const textForTimeAndToDo = document.getElementById(
+    "textForTimeAndToDo" + index(1)
   );
-  const toDoToUpdate = toDoList[indexThatWasChecked];
-  toDoToUpdate.toDo = event.target.value;
-
-  localStorage.setItem("toDoList", JSON.stringify(toDoList));
 }
 
 function boxCheck(event) {
@@ -129,7 +144,6 @@ function boxCheck(event) {
   //   toDoToUpdate.toDo + "-liText"
   //   );
   const liId = event.target.id.replace("checkbox", "li");
-
   if (event.target.checked === true) {
     toDoToUpdate.done = true;
     document.getElementById(liId).classList.add("checked");
@@ -141,7 +155,7 @@ function boxCheck(event) {
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
 }
 
-getToDoList().forEach((element) => addLi(element));
+getToDoList().forEach((element, index) => addLi(element, index));
 
 const form = document.getElementById("form");
 
@@ -169,7 +183,8 @@ function deleteToDo(event) {
     toDoList.splice(rightIndex, 1);
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     location.reload();
-    toDoList.forEach((element) => addLi(element));
+    toDoList.forEach((element, index) => addLi(element, index));
+
     //
   } else {
     return false;
