@@ -35,12 +35,13 @@ function handleSubmit(event) {
 }
 
 function addLi(element, index) {
+  const toDoList = getToDoList();
   if (element.done === true) {
-    var isChecked = " type='checkbox' + checked ";
+    var isChecked = " type= 'checkbox' + checked ";
     var lisId = '<li class = "checked"' + 'id="';
     input.setAttribute("value", element.toDo);
   } else {
-    var isChecked = " type='checkbox'";
+    var isChecked = " type= 'checkbox'";
     var lisId = '<li id="';
   }
   const ol = document.getElementsByTagName("ol")[0];
@@ -52,6 +53,9 @@ function addLi(element, index) {
     element.toDo +
     "-delete" +
     '"> Delete </button>' +
+    "<div id = 'textForTimeAndToDo" +
+    index +
+    "'>" +
     "<div id ='toDo-" +
     index +
     "'> " +
@@ -63,53 +67,69 @@ function addLi(element, index) {
     "'>" +
     element.time +
     "</input>" +
-    " </div> <input" +
+    "<div id ='toDo2-" +
+    index +
+    "'> <input type = 'textbox' value ='" +
+    element.toDo +
+    "'>" +
+    "</input>" +
+    "</div>" +
+    " at " +
+    "</div>" +
+    "<div id = 'textboxsAndEnterButton" +
+    index +
+    "'>" +
+    "<div id ='time2-" +
+    index +
+    "'> <input type = 'textbox' value ='" +
+    element.time +
+    "'>" +
+    "</input> <div id ='enterButton-" +
+    index +
+    "'> <button type = 'submit'>" +
+    "Confirm Text Value" +
+    "</button>" +
+    "</input>" +
+    " </div> <input " +
     isChecked +
     " id='" +
     element.toDo +
-    "-checkbox' />" +
+    "-checkbox" +
+    index +
+    "'/>" +
     "</li>";
-  // ol.replace("undefined", "");
+  const indexToString = index.toString();
   ol.insertAdjacentHTML("beforeend", li);
+  // ol.replace("undefined", "");
   const deleteButton = document.getElementById(element.toDo + "-delete");
-  const checkbox = document.getElementById(element.toDo + "-checkbox");
   deleteButton.addEventListener("click", deleteToDo);
-  checkbox.addEventListener("click", boxCheck);
   console.log(element.toDo);
   liArray.push(element.toDo);
-  const toDoCheckBox = element.toDo.replace(
-    element.toDo,
-    element.toDo + "-textbox"
-  );
-  const toDoCheckboxId = document.getElementById(toDoCheckBox);
-  toDoCheckboxId.value = element.toDo;
-  const timeCheckBox = element.time.replace(
-    element.time,
-    element.time + "-textbox"
-  );
-  const timeCheckboxId = document.getElementById(timeCheckBox);
-  timeCheckboxId.value = element.time;
-  timeCheckboxId.addEventListener("click", timeOrToDoChange);
-  toDoCheckboxId.value = element.toDo;
-  toDoCheckboxId.addEventListener("click", timeOrToDoChange);
+  const checkboxQuery = element.toDo + "-checkbox" + indexToString;
+  const checkbox = document.getElementById(checkboxQuery);
+  debugger;
+  checkbox.addEventListener("click", boxCheck);
+  const toDoCheckbox = document.getElementById("toDo-" + indexToString);
+  const timeCheckbox = document.getElementById("time-" + indexToString);
+  timeCheckbox.addEventListener("click", hideTextDiv);
+  toDoCheckbox.addEventListener("click", hideTextDiv);
+  const enterButton = document.getElementById("enterButton-" + indexToString);
+  enterButton.addEventListener("click", hideTextboxDiv);
 }
 
-function timeOrToDoChange(event) {
-  const toDoList = getToDoList();
-  debugger;
-  const toDoToUpdate = toDoList[indexThatWasChecked];
-  const ol = document.getElementsByTagName("ol");
-  localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  if (document.getElementsByTagName("div") !== null) {
-    ol.innerHTML("<div", "<input type = 'textbox'");
-    ol.replace(
-      "</div>",
-      "</input> <button onClick='timeOrToDoChange()'> Enter </button>"
-    );
-  } else {
-    ol.replace("<input type = 'textbox'", "<div");
-    ol.replace("</input>", "</div>");
-  }
+function hideTextboxDiv(event) {
+  const index = event.target.id.split("-");
+  const textboxsAndEnter = document.getElementById(
+    "textboxsAndEnterButton" + index(1)
+  );
+  textboxsAndEnter.classList.toggle("hidden");
+}
+
+function hideTextDiv(event) {
+  const index = event.target.id.split("-");
+  const textForTimeAndToDo = document.getElementById(
+    "textForTimeAndToDo" + index(1)
+  );
 }
 
 function boxCheck(event) {
@@ -124,7 +144,6 @@ function boxCheck(event) {
   //   toDoToUpdate.toDo + "-liText"
   //   );
   const liId = event.target.id.replace("checkbox", "li");
-
   if (event.target.checked === true) {
     toDoToUpdate.done = true;
     document.getElementById(liId).classList.add("checked");
