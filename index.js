@@ -39,7 +39,6 @@ function addLi(element, index) {
   if (element.done === true) {
     var isChecked = " type= 'checkbox' + checked ";
     var lisId = '<li class = "checked"' + 'id="';
-    input.setAttribute("value", element.toDo);
   } else {
     var isChecked = " type= 'checkbox'";
     var lisId = '<li id="';
@@ -67,37 +66,40 @@ function addLi(element, index) {
     "'>" +
     element.time +
     "</input>" +
-    "<div id ='toDo2-" +
+    "</div>" +
+    "</div>" +
+    "<div class = 'hidden' id = 'textboxsAndEnterButton-" +
+    index +
+    "'><div id ='toDo2-" +
     index +
     "'> <input type = 'textbox' value ='" +
     element.toDo +
     "'>" +
     "</input>" +
-    "</div>" +
     " at " +
     "</div>" +
-    "<div id = 'textboxsAndEnterButton" +
-    index +
-    "'>" +
     "<div id ='time2-" +
     index +
     "'> <input type = 'textbox' value ='" +
     element.time +
     "'>" +
-    "</input> <div id ='enterButton-" +
+    "</input>" +
+    "</div>" +
+    "<button type = 'submit' id = 'enterButton-" +
     index +
-    "'> <button type = 'submit'>" +
+    "'>" +
     "Confirm Text Value" +
     "</button>" +
     "</input>" +
-    " </div> <input " +
+    " </div> </div> <input " +
     isChecked +
     " id='" +
     element.toDo +
-    "-checkbox" +
+    "-checkbox-" +
     index +
-    "'/>" +
-    "</li>";
+    "'>" +
+    "</input>";
+  ("</li>");
   const indexToString = index.toString();
   ol.insertAdjacentHTML("beforeend", li);
   // ol.replace("undefined", "");
@@ -105,45 +107,52 @@ function addLi(element, index) {
   deleteButton.addEventListener("click", deleteToDo);
   console.log(element.toDo);
   liArray.push(element.toDo);
-  const checkboxQuery = element.toDo + "-checkbox" + indexToString;
+  const checkboxQuery = element.toDo + "-checkbox-" + indexToString;
   const checkbox = document.getElementById(checkboxQuery);
-  debugger;
   checkbox.addEventListener("click", boxCheck);
   const toDoCheckbox = document.getElementById("toDo-" + indexToString);
   const timeCheckbox = document.getElementById("time-" + indexToString);
   timeCheckbox.addEventListener("click", hideTextDiv);
   toDoCheckbox.addEventListener("click", hideTextDiv);
   const enterButton = document.getElementById("enterButton-" + indexToString);
+
   enterButton.addEventListener("click", hideTextboxDiv);
 }
 
 function hideTextboxDiv(event) {
-  const index = event.target.id.split("-");
+  const index = event.target.id.split("-")[1];
   const textboxsAndEnter = document.getElementById(
-    "textboxsAndEnterButton" + index(1)
+    "textboxsAndEnterButton-" + index
   );
   textboxsAndEnter.classList.toggle("hidden");
+  const textForTimeAndToDo = document.getElementById(
+    "textForTimeAndToDo" + index
+  );
+  if (textForTimeAndToDo.classList.contains("hidden")) {
+    textForTimeAndToDo.classList.toggle("hidden");
+  }
 }
 
 function hideTextDiv(event) {
-  const index = event.target.id.split("-");
+  const index = event.target.id.split("-")[1];
   const textForTimeAndToDo = document.getElementById(
-    "textForTimeAndToDo" + index(1)
+    "textForTimeAndToDo" + index
   );
+  textForTimeAndToDo.classList.toggle("hidden");
+  const textboxsAndEnter = document.getElementById(
+    "textboxsAndEnterButton-" + index
+  );
+  if (textboxsAndEnter.classList.contains("hidden")) {
+    textboxsAndEnter.classList.toggle("hidden");
+  }
 }
 
 function boxCheck(event) {
   const toDoList = getToDoList();
-  const indexThatWasChecked = toDoList.findIndex(
-    (item) => item.toDo === event.target.id.replace("-checkbox", "")
-  );
+  const indexThatWasChecked = event.target.id.split("-")[2];
   const toDoToUpdate = toDoList[indexThatWasChecked];
 
-  // const liId = toDoToUpdate.toDo.replace(
-  //   toDoToUpdate.toDo,
-  //   toDoToUpdate.toDo + "-liText"
-  //   );
-  const liId = event.target.id.replace("checkbox", "li");
+  const liId = "li-" + indexThatWasChecked;
   if (event.target.checked === true) {
     toDoToUpdate.done = true;
     document.getElementById(liId).classList.add("checked");
