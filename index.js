@@ -159,14 +159,19 @@ function boxCheck(event) {
   const toDoList = getToDoList();
   const indexThatWasChecked = event.target.id.split("-")[2];
   const toDoToUpdate = toDoList[indexThatWasChecked];
-
+  const toDoCheckbox = document.getElementById("toDo-" + indexThatWasChecked);
+  const timeCheckbox = document.getElementById("time-" + indexThatWasChecked);
   const liId = "li-" + indexThatWasChecked;
   if (event.target.checked === true) {
     toDoToUpdate.done = true;
+    timeCheckbox.removeEventListener("click", hideTextDiv);
+    toDoCheckbox.removeEventListener("click", hideTextDiv);
     document.getElementById(liId).classList.add("checked");
   } else {
     toDoToUpdate.done = false;
     document.getElementById(liId).classList.remove("checked");
+    timeCheckbox.addEventListener("click", hideTextDiv);
+    toDoCheckbox.addEventListener("click", hideTextDiv);
   }
 
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
