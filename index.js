@@ -127,14 +127,18 @@ function hideTextboxDiv(event) {
   const textForTimeAndToDo = document.getElementById(
     "textForTimeAndToDo" + index
   );
+  const toDoList = getToDoList();
+  const toDoTextboxText = document.getElementById("toDo2-" + index).value;
+  const timeTextboxText = document.getElementById("time2-" + index).value;
+  const toDoToUpdate = toDoList[index];
   if (textForTimeAndToDo.classList.contains("hidden")) {
     textForTimeAndToDo.classList.toggle("hidden");
-    const toDoTextboxText = document.getElementById("toDo2-" + index).value;
-
     document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
-    const timeTextboxText = document.getElementById("time2-" + index).value;
     document.getElementById("time-" + index).innerHTML = timeTextboxText;
   }
+  toDoToUpdate.toDo = toDoTextboxText;
+  toDoToUpdate.time = timeTextboxText;
+  localStorage.setItem("toDoList", JSON.stringify(toDoList));
 }
 
 function hideTextDiv(event) {
