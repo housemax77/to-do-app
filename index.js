@@ -129,13 +129,11 @@ function hideTextboxDiv(event) {
   );
   if (textForTimeAndToDo.classList.contains("hidden")) {
     textForTimeAndToDo.classList.toggle("hidden");
-    // const toDoTextboxText = document.getElementById("toDo2-" + index)
-    //   .textContent;
-    // debugger;
-    // document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
-    // const timeTextboxText = document.getElementById("time2-" + index)
-    //   .textContent;
-    // document.getElementById("time-" + index).innerHTML = timeTextboxText;
+    const toDoTextboxText = document.getElementById("toDo2-" + index).value;
+    debugger;
+    document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
+    const timeTextboxText = document.getElementById("time2-" + index).value;
+    document.getElementById("time-" + index).innerHTML = timeTextboxText;
   }
 }
 
