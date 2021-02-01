@@ -107,7 +107,7 @@ function addLi(element, index) {
   liArray.push(element.toDo);
   const checkboxQuery = element.toDo + "-checkbox-" + indexToString;
   const checkbox = document.getElementById(checkboxQuery);
-  debugger;
+
   checkbox.addEventListener("click", boxCheck);
   const toDoCheckbox = document.getElementById("toDo-" + indexToString);
   const timeCheckbox = document.getElementById("time-" + indexToString);
@@ -130,7 +130,7 @@ function hideTextboxDiv(event) {
   if (textForTimeAndToDo.classList.contains("hidden")) {
     textForTimeAndToDo.classList.toggle("hidden");
     const toDoTextboxText = document.getElementById("toDo2-" + index).value;
-    debugger;
+
     document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
     const timeTextboxText = document.getElementById("time2-" + index).value;
     document.getElementById("time-" + index).innerHTML = timeTextboxText;
