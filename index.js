@@ -65,31 +65,29 @@ function addLi(element, index) {
     index +
     "'>" +
     element.time +
-    "</input>" +
-    "</div>" +
-    "</div>" +
+    "</input> </div> </div>" +
     "<div class = 'hidden' id = 'textboxsAndEnterButton-" +
     index +
-    "'><div id ='toDo2-" +
+    "'>" +
+    "<input id = 'toDo2-" +
     index +
-    "'> <input type = 'textbox' value ='" +
+    "'type = 'textbox' value ='" +
     element.toDo +
     "'>" +
     "</input>" +
     " at " +
-    "</div>" +
-    "<div id ='time2-" +
+    "<input id ='time2-" +
     index +
-    "'> <input type = 'textbox' value ='" +
+    "'type = 'textbox' value ='" +
     element.time +
     "'>" +
     "</input>" +
-    "</div>" +
     "<button type = 'submit' id = 'enterButton-" +
     index +
     "'>" +
     "Confirm Text Value" +
     "</button>" +
+    "</div>" +
     "</input>" +
     " </div> </div> <input " +
     isChecked +
@@ -109,6 +107,7 @@ function addLi(element, index) {
   liArray.push(element.toDo);
   const checkboxQuery = element.toDo + "-checkbox-" + indexToString;
   const checkbox = document.getElementById(checkboxQuery);
+  debugger;
   checkbox.addEventListener("click", boxCheck);
   const toDoCheckbox = document.getElementById("toDo-" + indexToString);
   const timeCheckbox = document.getElementById("time-" + indexToString);
@@ -130,6 +129,11 @@ function hideTextboxDiv(event) {
   );
   if (textForTimeAndToDo.classList.contains("hidden")) {
     textForTimeAndToDo.classList.toggle("hidden");
+    const toDoTextboxText = document.getElementById("toDo2-" + index).value;
+    debugger;
+    document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
+    const timeTextboxText = document.getElementById("time2-" + index).value;
+    document.getElementById("time-" + index).innerHTML = timeTextboxText;
   }
 }
 
