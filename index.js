@@ -1,3 +1,4 @@
+// make dropdown menu or radio boxs to select if want to sort by time or aplpabeticlly
 function getToDoList() {
   const toDoListFromLocalStorage = localStorage.getItem("toDoList");
   if (toDoListFromLocalStorage === null) {
@@ -17,7 +18,6 @@ function handleSubmit(event) {
 
   const toDo = document.getElementById("toDo").value;
   const time = document.getElementById("time").value;
-  // const sorted = document.getElementById("sorted").value;
   const isItemValid = testToDo(toDo, toDoList);
   const isTimeValid = testTime(time);
 
@@ -26,7 +26,6 @@ function handleSubmit(event) {
       done: false,
       toDo: toDo,
       time: time,
-      // sorted: false,
     };
     toDoList.push(toDoInfo);
     const index = toDoList.length - 1;
@@ -66,7 +65,6 @@ function addLi(element, index) {
 
   const indexToString = index.toString();
   ol.insertAdjacentHTML("beforeend", li);
-  // ol.replace("undefined", "");
   const deleteButton = document.getElementById(element.toDo + "-delete");
   deleteButton.addEventListener("click", deleteToDo);
   console.log(element.toDo);
@@ -84,24 +82,6 @@ function addLi(element, index) {
   const sortButton = document.getElementById("sortButton-");
   sortButton.addEventListener("click", callSortTimes);
 }
-
-// function sortToDos(event) {
-// // const index = event.target.id.split("-")[1];
-// const toDoList = getToDoList();
-// const timeArray = [];
-// const addToTimeArray = toDoList.forEach((element) =>
-//   timeArray.push(element.time)
-// );
-
-// // const getLi = document.getElementById("li-" + index);
-// const sortedToDos = toDoList.sort((a.time, b.time) => b.time.time - a.time.time);
-// localStorage.setItem("toDoList", JSON.stringify(sortedToDos));
-
-//   const splitToDoList = toDoList.forEach((element) => element.split("-")[1]);
-//   const getIndex = splitToDoList.replace(splitToDoList, indexOf("Apple"));
-//   getIndex.replace(getIndex);
-//   localStorage.setItem("toDoList", toDoList);
-// }
 
 function callSortTimes(event) {
   const toDoList = getToDoList();
