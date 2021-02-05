@@ -4,6 +4,7 @@ function getToDoList() {
     var toDoList = [];
   } else {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
+    debugger;
   }
 
   return toDoList;
@@ -17,6 +18,7 @@ function handleSubmit(event) {
 
   const toDo = document.getElementById("toDo").value;
   const time = document.getElementById("time").value;
+  // const sorted = document.getElementById("sorted").value;
   const isItemValid = testToDo(toDo, toDoList);
   const isTimeValid = testTime(time);
 
@@ -25,6 +27,7 @@ function handleSubmit(event) {
       done: false,
       toDo: toDo,
       time: time,
+      // sorted: false,
     };
     toDoList.push(toDoInfo);
     const index = toDoList.length - 1;
@@ -55,7 +58,7 @@ function addLi(element, index) {
     <div class = 'hidden' id = 'textboxsAndEnterButton-${index}'>
     <input id ='toDo2-${index}'type = 'textbox' value ='${element.toDo}'></input>
     at
-    <input id ='time2-${index}'type = 'textbox' value ='${element.time}'></input>
+    <input type ='time' id ='time2-${index}'type = 'textbox' value ='${element.time}'></input>
     <button type = 'submit' id = 'enterButton-${index}'> Confirm Text Value </button>
     </div> </input> </div> </div>
     <input${isChecked} id='${element.toDo}-checkbox-${index}'></input>
@@ -78,8 +81,47 @@ function addLi(element, index) {
   timeCheckbox.addEventListener("click", hideTextDiv);
   toDoCheckbox.addEventListener("click", hideTextDiv);
   const enterButton = document.getElementById("enterButton-" + indexToString);
-
   enterButton.addEventListener("click", hideTextboxDiv);
+  const sortButton = document.getElementById("sortButton-");
+  sortButton.addEventListener("click", callSortTimes);
+}
+
+// function sortToDos(event) {
+// // const index = event.target.id.split("-")[1];
+// const toDoList = getToDoList();
+// const timeArray = [];
+// const addToTimeArray = toDoList.forEach((element) =>
+//   timeArray.push(element.time)
+// );
+
+// // const getLi = document.getElementById("li-" + index);
+// const sortedToDos = toDoList.sort((a.time, b.time) => b.time.time - a.time.time);
+// localStorage.setItem("toDoList", JSON.stringify(sortedToDos));
+
+//   const splitToDoList = toDoList.forEach((element) => element.split("-")[1]);
+//   const getIndex = splitToDoList.replace(splitToDoList, indexOf("Apple"));
+//   getIndex.replace(getIndex);
+//   localStorage.setItem("toDoList", toDoList);
+// }
+
+function callSortTimes(event) {
+  const toDoList = getToDoList();
+  sortTimes(toDoList);
+  debugger;
+  localStorage;
+  toDoList.sorted = true;
+  localStorage.setItem("toDoList", JSON.stringify(toDoList));
+  location.reload();
+}
+
+function sortTimes(toDoList) {
+  return toDoList.sort(function (a, b) {
+    if (parseInt(a.time.split(":")[0]) - parseInt(b.time.split(":")[0]) === 0) {
+      return parseInt(a.time.split(":")[1]) - parseInt(b.time.split(":")[1]);
+    } else {
+      return parseInt(a.time.split(":")[0]) - parseInt(b.time.split(":")[0]);
+    }
+  });
 }
 
 function hideTextboxDiv(event) {
