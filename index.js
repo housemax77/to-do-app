@@ -1,4 +1,3 @@
-// make dropdown menu or radio boxs to select if want to sort by time or aplpabeticlly
 function getToDoList() {
   const toDoListFromLocalStorage = localStorage.getItem("toDoList");
   if (toDoListFromLocalStorage === null) {
@@ -91,16 +90,9 @@ function callSortAlpabetical(event) {
   const toDoList = getToDoList();
   debugger;
   toDoList.sort((a, b) => a.toDo.localeCompare(b.toDo));
-  // const toDoArray = [];
-  // toDoList.forEach((element) => toDoArray.push(element.toDo));
-  // toDoArray.sort();
-  // sortAlphabetically(toDoList);
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
   location.reload();
 }
-
-// function sortAlphabetically(toDoList) {
-// }
 
 function callSortTimes(event) {
   const toDoList = getToDoList();
