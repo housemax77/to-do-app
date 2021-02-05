@@ -79,16 +79,34 @@ function addLi(element, index) {
   toDoCheckbox.addEventListener("click", hideTextDiv);
   const enterButton = document.getElementById("enterButton-" + indexToString);
   enterButton.addEventListener("click", hideTextboxDiv);
-  const sortButton = document.getElementById("sortButton-");
-  sortButton.addEventListener("click", callSortTimes);
+  const timeSortButton = document.getElementById("timeSortButton-");
+  timeSortButton.addEventListener("click", callSortTimes);
+  const alphabeticalSortButton = document.getElementById(
+    "alphabeticalSortButton-"
+  );
+  alphabeticalSortButton.addEventListener("click", callSortAlpabetical);
 }
+
+function callSortAlpabetical(event) {
+  const toDoList = getToDoList();
+  debugger;
+  toDoList.sort((a, b) => a.toDo.localeCompare(b.toDo));
+  // const toDoArray = [];
+  // toDoList.forEach((element) => toDoArray.push(element.toDo));
+  // toDoArray.sort();
+  // sortAlphabetically(toDoList);
+  localStorage.setItem("toDoList", JSON.stringify(toDoList));
+  location.reload();
+}
+
+// function sortAlphabetically(toDoList) {
+// }
 
 function callSortTimes(event) {
   const toDoList = getToDoList();
   sortTimes(toDoList);
 
   localStorage;
-  toDoList.sorted = true;
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
   location.reload();
 }
