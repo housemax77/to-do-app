@@ -4,7 +4,6 @@ function getToDoList() {
     var toDoList = [];
   } else {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
-    debugger;
   }
 
   return toDoList;
@@ -107,7 +106,7 @@ function addLi(element, index) {
 function callSortTimes(event) {
   const toDoList = getToDoList();
   sortTimes(toDoList);
-  debugger;
+
   localStorage;
   toDoList.sorted = true;
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
