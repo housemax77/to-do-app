@@ -45,13 +45,14 @@ function addLi(element, index) {
   }
   const ol = document.getElementsByTagName("ol")[0];
 
-  const li = `${lisId}li-${index}"> 
+  const li = `${lisId}li-${index}">
     <button id='${element.toDo}-delete'>Delete</button>
-    <div id = 'textForTimeAndToDo${index}'>
+    <div id = 'textForTimeAndToDo-${index}'>
+    <div id = 'textForSort-${index}'>
     <div id ='toDo-${index}'>${element.toDo}</div>
     at
-    <div id ='time-${index}'>${element.time}</div>
-    </input> </div> </div>
+    <div id ='time-${index}'>${element.time}
+    </div> </div> </div> </div>
     <div class = 'hidden' id = 'textboxsAndEnterButton-${index}'>
     <input id ='toDo2-${index}'type = 'textbox' value ='${element.toDo}'></input>
     at
@@ -88,10 +89,26 @@ function addLi(element, index) {
 
 function callSortAlpabetical(event) {
   const toDoList = getToDoList();
-  debugger;
   toDoList.sort((a, b) => a.toDo.localeCompare(b.toDo));
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
   location.reload();
+}
+
+function toDoSort() {
+  var input, filter, ol, li, a, i, txtValue;
+  input = document.getElementById("searchToDo");
+  filter = input.value.toLowerCase();
+  ol = document.getElementById("List");
+  li = ol.getElementsByTagName("li");
+  for (i = 0; i < li.length; i++) {
+    a = document.getElementById("textForSort-" + i);
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
 }
 
 function callSortTimes(event) {
@@ -120,7 +137,7 @@ function hideTextboxDiv(event) {
   );
   textboxsAndEnter.classList.toggle("hidden");
   const textForTimeAndToDo = document.getElementById(
-    "textForTimeAndToDo" + index
+    "textForTimeAndToDo-" + index
   );
   const toDoList = getToDoList();
   const toDoTextboxText = document.getElementById("toDo2-" + index).value;
@@ -139,7 +156,7 @@ function hideTextboxDiv(event) {
 function hideTextDiv(event) {
   const index = event.target.id.split("-")[1];
   const textForTimeAndToDo = document.getElementById(
-    "textForTimeAndToDo" + index
+    "textForTimeAndToDo-" + index
   );
   textForTimeAndToDo.classList.toggle("hidden");
   const textboxsAndEnter = document.getElementById(
@@ -201,8 +218,6 @@ function deleteToDo(event) {
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     location.reload();
     toDoList.forEach((element, index) => addLi(element, index));
-
-    //
   } else {
     return false;
   }
