@@ -6,6 +6,18 @@ function getToDoList() {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
   }
 
+  function whatToSortBy() {
+    const getLocalStorage = localStorage.getItem("sortBy");
+    const getText = document.getElementById("sortBy");
+    if (getLocalStorage === null) {
+      getText.innerHTML = "Not Sorting";
+    } else {
+      getText.innerHTML = getLocalStorage;
+    }
+  }
+
+  whatToSortBy();
+
   return toDoList;
 }
 
@@ -20,7 +32,7 @@ function handleSubmit(event) {
   const isItemValid = testToDo(toDo, toDoList);
   const isTimeValid = testTime(time);
 
-  if (isItemValid === true && isTimeValid === true) {
+  if (isItemValid && isTimeValid) {
     const toDoInfo = {
       done: false,
       toDo: toDo,
@@ -32,10 +44,15 @@ function handleSubmit(event) {
     addLi(toDoInfo, index);
     form.reset();
   }
+  const sortBy = localStorage.getItem("sortBy");
+  if (sortBy === "Sorting By Time") {
+    callSortTimes();
+  } else if (sortBy === "Sorting Alphabetically") {
+    callSortAlpabetical();
+  }
 }
 
 function addLi(element, index) {
-  const toDoList = getToDoList();
   if (element.done === true) {
     var isChecked = " type= 'checkbox' + checked ";
     var lisId = '<li class = "checked" id="';
@@ -62,7 +79,6 @@ function addLi(element, index) {
     <input${isChecked} id='${element.toDo}-checkbox-${index}'></input>
     </li>
   `;
-
   const indexToString = index.toString();
   ol.insertAdjacentHTML("beforeend", li);
   const deleteButton = document.getElementById(element.toDo + "-delete");
@@ -88,12 +104,54 @@ function addLi(element, index) {
 }
 
 function callSortAlpabetical(event) {
+  // var list,
+  //   i,
+  //   switching,
+  //   b,
+  //   shouldSwitch,
+  //   dir,
+  //   switchcount = 0;
+  // list = document.getElementById("List");
+  // switching = true;
+  // dir = "asc";
+  // while (switching) {
+  //   switching = false;
+  //   b = list.getElementsByTagName("LI");
+  //   for (i = 0; i < b.length - 1; i++) {
+  //     shouldSwitch = false;
+  //     if (dir == "asc") {
+  //       if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+  //         shouldSwitch = true;
+  //         break;
+  //       }
+  //     } else if (dir == "desc") {
+  //       if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+  //         shouldSwitch = true;
+  //         break;
+  //       }
+  //     }
+  //   }
+  //   if (shouldSwitch) {
+  //     b[i].parentNode.insertBefore(b[i + 1], b[i]);
+  //     switching = true;
+  //     switchcount++;
+  //   } else {
+  //     if (switchcount == 0 && dir == "asc") {
+  //       dir = "desc";
+  //       switching = true;
+  //     }
+  //   }
+  // }
+  document.getElementById("sortBy").innerHTML = "Sorting Alphabetically";
+  localStorage.setItem("sortBy", "Sorting Alphabetically");
+
   const toDoList = getToDoList();
+  localStorage.getItem("sortBy");
   toDoList.sort((a, b) => a.toDo.localeCompare(b.toDo));
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  location.reload();
+  renderLis();
+  localStorage.setItem("sortBy", "Sorting Alphabetically");
 }
-
 function toDoSort() {
   var input, filter, ol, li, a, i, txtValue;
   input = document.getElementById("searchToDo");
@@ -114,10 +172,11 @@ function toDoSort() {
 function callSortTimes(event) {
   const toDoList = getToDoList();
   sortTimes(toDoList);
-
-  localStorage;
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  location.reload();
+  renderLis();
+  document.getElementById("sortBy").innerHTML = "Sorting By Time";
+  localStorage.setItem("sortBy", "Sorting By Time");
+  location.reload;
 }
 
 function sortTimes(toDoList) {
@@ -147,6 +206,12 @@ function hideTextboxDiv(event) {
     textForTimeAndToDo.classList.toggle("hidden");
     document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
     document.getElementById("time-" + index).innerHTML = timeTextboxText;
+  }
+  const sortBy = localStorage.getItem("sortBy");
+  if (sortBy === "Sorting By Time") {
+    callSortTimes();
+  } else if (sortBy === "Sorting Alphabetically") {
+    callSortAlpabetical();
   }
   toDoToUpdate.toDo = toDoTextboxText;
   toDoToUpdate.time = timeTextboxText;
@@ -188,8 +253,12 @@ function boxCheck(event) {
 
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
 }
+function renderLis() {
+  document.getElementById("List").innerHTML = "";
+  getToDoList().forEach((element, index) => addLi(element, index));
+}
 
-getToDoList().forEach((element, index) => addLi(element, index));
+renderLis();
 
 const form = document.getElementById("form");
 
@@ -216,7 +285,7 @@ function deleteToDo(event) {
   ) {
     toDoList.splice(rightIndex, 1);
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
-    location.reload();
+    renderLis();
     toDoList.forEach((element, index) => addLi(element, index));
   } else {
     return false;

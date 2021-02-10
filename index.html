@@ -13,16 +13,21 @@
       <input type="time" placeholder="Time Here" id="time" />
       <input id="myCheck" type="submit" />
     </form>
-    <ol id="List">
-      <div class="dropdown">
-        <button class="dropbtn">Dropdown</button>
-        <div class="dropdown-content">
-          <a id="timeSortButton-">Sort By Time</a>
-          <a id="alphabeticalSortButton-">Sort Alphabeticlly</a>
-        </div>
-        <input type="text" id="searchToDo" placeholder="Search To Do" onkeyup="toDoSort()"></input>
+    <div class="dropdown">
+      <button class="dropbtn">Dropdown</button>
+      <div class="dropdown-content">
+        <a id="timeSortButton-">Sort By Time</a>
+        <a id="alphabeticalSortButton-">Sort Alphabeticlly</a>
       </div>
-    </ol>
+      <input
+        type="text"
+        id="searchToDo"
+        placeholder="🔍 Search"
+        onkeyup="toDoSort()"
+      />
+    </div>
+    <div id="sortBy">Not Sorting</div>
+    <ol id="List"></ol>
 
     <script src="index.js"></script>
   </body>
