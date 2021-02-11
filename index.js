@@ -65,18 +65,18 @@ function addLi(element, index) {
   const li = `${lisId}li-${index}">
     <button id='${element.toDo}-delete'>Delete</button>
     <div id = 'textForTimeAndToDo-${index}'>
-    <div id = 'textForSort-${index}'>
-    <div id ='toDo-${index}'>${element.toDo}</div>
-    at
-    <div id ='time-${index}'>${element.time}
+      <div id = 'textForSort-${index}'>
+        <div id ='toDo-${index}'>${element.toDo}</div>
+          at
+      <div id ='time-${index}'>${element.time}
     </div> </div> </div> </div>
-    <div class = 'hidden' id = 'textboxsAndEnterButton-${index}'>
-    <input id ='toDo2-${index}'type = 'textbox' value ='${element.toDo}'></input>
-    at
-    <input type ='time' id ='time2-${index}'type = 'textbox' value ='${element.time}'></input>
-    <button type = 'submit' id = 'enterButton-${index}'> Confirm Text Value </button>
+      <div class = 'hidden' id = 'textboxsAndEnterButton-${index}'>
+        <input id ='toDo2-${index}'type = 'textbox' value ='${element.toDo}'></input>
+          at
+        <input type ='time' id ='time2-${index}'type = 'textbox' value ='${element.time}'></input>
+      <button type = 'submit' id = 'enterButton-${index}'> Confirm Text Value </button>
     </div> </input> </div> </div>
-    <input${isChecked} id='${element.toDo}-checkbox-${index}'></input>
+      <input${isChecked} id='${element.toDo}-checkbox-${index}'></input>
     </li>
   `;
   const indexToString = index.toString();

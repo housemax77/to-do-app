@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/housemax77/to-do-app#readme",
   "dependencies": {
+    "cypress": "^6.4.0",
     "http-server": "^0.12.3"
   }
 }
