@@ -12,8 +12,8 @@ context("To do app", () => {
     cy.visit("http://127.0.0.1:8080/");
   });
 
-  it("should display the heading", () => {
-    cy.get("#heading").should("exist");
+  it("should display right text for heading", () => {
+    expect(cy.get("#heading".valueOf("To Do List")));
   });
 
   it("should support adding a todo", () => {
@@ -43,6 +43,14 @@ context("To do app", () => {
     addToDos();
     cy.get("#Blahhh-delete").click();
     cy.on("window:confirm", () => true);
+    cy.get("#li-1").should("not.exist");
+  });
+
+  it("should support canceling deleting todo", () => {
+    addToDos();
+    cy.get("#Blahhh-delete").click();
+    cy.on("window:confirm", () => false);
+    cy.get("#li-1").should("exist");
   });
 
   it("should support marking as done", () => {
