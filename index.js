@@ -246,8 +246,12 @@ function deleteToDo(event) {
     )
   ) {
     toDoList.splice(rightIndex, 1);
-    localStorage.setItem("toDoList", JSON.stringify(toDoList));
-    renderLis();
+    debugger;
+    localStorage.setItem(
+      "toDoList",
+      JSON.stringify(toDoList).replace("undefined", "")
+    );
+    document.getElementById("List").innerHTML = renderLis();
     toDoList.forEach((element, index) => addLi(element, index));
   } else {
     return false;
