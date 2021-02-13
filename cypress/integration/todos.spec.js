@@ -2,10 +2,10 @@
 function addToDos() {
   cy.get("#toDo").type("Blah");
   cy.get("#time").type("17:30");
-  cy.get("#myCheck").click();
+  cy.findByRole("button", { name: "Add To Do" }).click();
   cy.get("#toDo").type("Blahhh");
   cy.get("#time").type("17:29");
-  cy.get("#myCheck").click();
+  cy.findByRole("button", { name: "Add To Do" }).click();
 }
 context("To do app", () => {
   beforeEach(() => {
@@ -19,7 +19,7 @@ context("To do app", () => {
   it("should support adding a todo", () => {
     cy.get("#toDo").type("Blahh");
     cy.get("#time").type("17:32");
-    cy.get("#myCheck").click();
+    cy.findByRole("button", { name: "Add To Do" }).click();
     cy.get("#li-0").should("exist");
   });
 
@@ -33,7 +33,7 @@ context("To do app", () => {
     addToDos();
     cy.get("#toDo").type("Bla");
     cy.get("#time").type("17:33");
-    cy.get("#myCheck").click();
+    cy.findByRole("button", { name: "Add To Do" }).click();
     cy.get("#li-0").should("exist");
     cy.get("#alphabeticalSortButton-").click({ force: true });
     cy.get("#Bla-checkbox-0").should("exist");
