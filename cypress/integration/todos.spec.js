@@ -1,12 +1,15 @@
 /// <reference types="cypress" />
 function addToDos() {
-  cy.get("#toDo").type("Blah");
-  cy.findByLabelText("To Do Time").type("17:30");
-  cy.findByRole("button", { name: "Add To Do" }).click();
-  cy.get("#toDo").type("Blahhh");
-  cy.findByLabelText("To Do Time").type("17:29");
+  addToDo("Blah", "17:30");
+  addToDo("Blahhh", "17:29");
+}
+
+function addToDo(toDo, time) {
+  cy.findByPlaceholderText("To Do").type(toDo);
+  cy.findByLabelText("To Do Time").type(time);
   cy.findByRole("button", { name: "Add To Do" }).click();
 }
+
 context("To do app", () => {
   beforeEach(() => {
     cy.visit("http://127.0.0.1:8080/");
@@ -14,13 +17,6 @@ context("To do app", () => {
 
   it("should display right text for heading", () => {
     expect(cy.get("#heading".valueOf("To Do List")));
-  });
-
-  it("should support adding a todo", () => {
-    cy.get("#toDo").type("Blahh");
-    cy.findByLabelText("To Do Time").type("17:32");
-    cy.findByRole("button", { name: "Add To Do" }).click();
-    cy.get("#li-0").should("exist");
   });
 
   it("should support sorting by time", () => {
