@@ -1,10 +1,10 @@
 /// <reference types="cypress" />
 function addToDos() {
   cy.get("#toDo").type("Blah");
-  cy.get("#time").type("17:30");
+  cy.findByLabelText("To Do Time").type("17:30");
   cy.findByRole("button", { name: "Add To Do" }).click();
   cy.get("#toDo").type("Blahhh");
-  cy.get("#time").type("17:29");
+  cy.findByLabelText("To Do Time").type("17:29");
   cy.findByRole("button", { name: "Add To Do" }).click();
 }
 context("To do app", () => {
@@ -18,7 +18,7 @@ context("To do app", () => {
 
   it("should support adding a todo", () => {
     cy.get("#toDo").type("Blahh");
-    cy.get("#time").type("17:32");
+    cy.findByLabelText("To Do Time").type("17:32");
     cy.findByRole("button", { name: "Add To Do" }).click();
     cy.get("#li-0").should("exist");
   });
@@ -32,7 +32,7 @@ context("To do app", () => {
   it("should support sorting alphabetically", () => {
     addToDos();
     cy.get("#toDo").type("Bla");
-    cy.get("#time").type("17:33");
+    cy.findByLabelText("To Do Time").type("17:33");
     cy.findByRole("button", { name: "Add To Do" }).click();
     cy.get("#li-0").should("exist");
     cy.get("#alphabeticalSortButton-").click({ force: true });
