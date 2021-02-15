@@ -7,7 +7,7 @@
   </head>
 
   <body>
-    <h1 id="heading">To Do List</h1>
+    <h1 aria-label="Page Heading" id="heading">To Do List</h1>
     <form id="form">
       <input placeholder="To Do" id="toDo" />
       <input aria-label="To Do Time" type="time" id="time" />
@@ -15,11 +15,14 @@
     </form>
     <div class="dropdown">
       <button class="dropbtn">Dropdown</button>
-      <div class="dropdown-content">
-        <a id="timeSortButton-">Sort By Time</a>
-        <a id="alphabeticalSortButton-">Sort Alphabeticlly</a>
+      <div aria-label="Sort By Time Or To Do Dropdown" class="dropdown-content">
+        <a aria-label="Sort By Time" id="timeSortButton-">Sort By Time</a>
+        <a aria-label="Sort Alphabeticlly" id="alphabeticalSortButton-"
+          >Sort Alphabeticlly</a
+        >
       </div>
       <input
+        aria-label="Text To Search To Do"
         type="text"
         id="searchToDo"
         placeholder="🔍 Search"
