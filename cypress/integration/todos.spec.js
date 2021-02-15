@@ -16,64 +16,64 @@ context("To do app", () => {
   });
 
   it("should display right text for heading", () => {
-    expect(cy.get("#heading".valueOf("To Do List")));
+    expect(cy.findByLabelText("Page Heading".valueOf("To Do List")));
   });
 
   it("should support sorting by time", () => {
     addToDos();
-    cy.get("#timeSortButton-").click({ force: true });
-    cy.get("#Blahhh-checkbox-0").should("exist");
+    cy.findByLabelText("Sort By Time").click({ force: true });
+    cy.findByLabelText("Check Blahhh At Index 0 As Done").should("exist");
   });
 
   it("should support sorting alphabetically", () => {
-    addToDos();
-    cy.get("#toDo").type("Bla");
-    cy.findByLabelText("To Do Time").type("17:33");
-    cy.findByRole("button", { name: "Add To Do" }).click();
-    cy.get("#li-0").should("exist");
-    cy.get("#alphabeticalSortButton-").click({ force: true });
-    cy.get("#Bla-checkbox-0").should("exist");
+    addToDo("Bla", "17:20");
+    cy.findByLabelText("Sort Alphabeticlly").click({ force: true });
+    cy.findByLabelText("Bla Li Index 0").should("exist");
   });
 
   it("should support deleting todo", () => {
     addToDos();
-    cy.get("#Blahhh-delete").click();
+    cy.findByLabelText("Delete Blahhh To Do").click();
     cy.on("window:confirm", () => true);
-    cy.get("#li-1").should("not.exist");
+    cy.findByLabelText("Blahhh Li Index 1").should("not.exist");
   });
 
   it("should support canceling deleting todo", () => {
     addToDos();
-    cy.get("#Blahhh-delete").click();
+    cy.findByLabelText("Delete Blahhh To Do").click();
     cy.on("window:confirm", () => false);
-    cy.get("#li-1").should("exist");
+    cy.findByLabelText("Blahhh Li Index 1").should("exist");
   });
 
   it("should support marking as done", () => {
     addToDos();
-    cy.get("#Blahhh-checkbox-1").click();
-    cy.get("#li-1").should("have.class", "checked");
+    cy.findByLabelText("Check Blahhh At Index 1 As Done").click();
+    cy.findByLabelText("Blahhh Li Index 1").should("have.class", "checked");
   });
 
   it("should support editing todos", () => {
     addToDos();
-    cy.get("#toDo-1").click();
-    cy.get("#toDo2-1").type("h");
-    cy.get("#enterButton-1").click();
-    expect(cy.get("#toDo-1".valueOf("Blahhhh")));
+    cy.findByText("Blahhh").click();
+    cy.findByLabelText("Enter New Text For Blahhh Here").type("h");
+    cy.findByRole("button", { name: "Confirm Text Value" }).click();
+    cy.findByText("Blahhhh").should("exist");
   });
 
   it("should support editing times", () => {
     addToDos();
-    cy.get("#time-1").click();
-    cy.get("#time2-1").type("17:22");
-    cy.get("#enterButton-1").click();
-    expect(cy.get("#time-1".valueOf("17:22")));
+    cy.findByText("17:29").click();
+    cy.findByLabelText("Enter New Time For 17:29 Here").type("17:22");
+    cy.findByRole("button", { name: "Confirm Text Value" }).click();
+    cy.findByText("17:22").should("exist");
   });
 
   it("should support searching todos", () => {
     addToDos();
-    cy.get("#searchToDo").type("Blahhh");
-    expect(cy.get("#searchToDo".valueOf("#li-1".text)));
+    cy.findByLabelText("Text To Search To Do").type("Blahhh");
+    expect(
+      cy.findByLabelText(
+        "Text To Search To Do".valueOf("Blahhh Li Index 1".text)
+      )
+    );
   });
 });
