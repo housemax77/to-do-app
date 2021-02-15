@@ -62,8 +62,8 @@ function addLi(element, index) {
   }
   const ol = document.getElementsByTagName("ol")[0];
 
-  const li = `${lisId}li-${index}">
-    <button id='${element.toDo}-delete'>Delete</button>
+  const li = `${lisId}li-${index}" aria-label='${element.toDo} Li Index ${index}'>
+    <button aria-label='Delete ${element.toDo} To Do' id='${element.toDo}-delete'>Delete</button>
     <div id = 'textForTimeAndToDo-${index}'>
       <div id = 'textForSort-${index}'>
         <div id ='toDo-${index}'>${element.toDo}</div>
@@ -71,12 +71,9 @@ function addLi(element, index) {
       <div id ='time-${index}'>${element.time}
     </div> </div> </div> </div>
       <div class = 'hidden' id = 'textboxsAndEnterButton-${index}'>
-        <input id ='toDo2-${index}'type = 'textbox' value ='${element.toDo}'></input>
-          at
-        <input type ='time' id ='time2-${index}'type = 'textbox' value ='${element.time}'></input>
-      <button type = 'submit' id = 'enterButton-${index}'> Confirm Text Value </button>
-    </div> </input> </div> </div>
-      <input${isChecked} id='${element.toDo}-checkbox-${index}'></input>
+      <button type = 'submit' id = 'enterButton-${index}'> Save Changes </button>
+    </div> </input> </div> </div> 
+      <input ${isChecked} aria-label="Check ${element.toDo} At Index ${index} As Done" id='${element.toDo}-checkbox-${index}'></input>
     </li>
   `;
   const indexToString = index.toString();
@@ -246,7 +243,6 @@ function deleteToDo(event) {
     )
   ) {
     toDoList.splice(rightIndex, 1);
-    debugger;
     localStorage.setItem(
       "toDoList",
       JSON.stringify(toDoList).replace("undefined", "")
