@@ -1,3 +1,5 @@
+// import { event } from "cypress/types/jquery";
+
 function getToDoList() {
   const toDoListFromLocalStorage = localStorage.getItem("toDoList");
   if (toDoListFromLocalStorage === null) {
@@ -5,6 +7,29 @@ function getToDoList() {
   } else {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
   }
+
+  window.addEventListener("beforeunload", function (event) {
+    event.preventDefault();
+    const toDoList = getToDoList();
+    toDoList.forEach((toDo, index) => {
+      checkBeforeUnload(toDo, index);
+    });
+
+    function checkBeforeUnload(toDo, index) {
+      const timeChanged =
+        document.getElementById("time2-" + index).value !== toDo.time;
+      const toDoChanged =
+        document.getElementById("toDo2-" + index).value !== toDo.toDo;
+      const enterButton = "enterButton-" + index;
+      if (toDoChanged === true) {
+        hideTextboxDiv(enterButton);
+        debugger;
+      } else if (timeChanged === true) {
+        hideTextboxDiv(enterButton);
+        debugger;
+      }
+    }
+  });
 
   function whatToSortBy() {
     const getLocalStorage = localStorage.getItem("sortBy");
@@ -71,8 +96,11 @@ function addLi(element, index) {
       <div id ='time-${index}'>${element.time}
     </div> </div> </div> </div>
       <div class = 'hidden' id = 'textboxsAndEnterButton-${index}'>
+      <input type = "text" id ='toDo2-${index}' aria-label="Enter New Text For ${element.toDo} Here" value="${element.toDo}"/>
+      at
+      <input type = "time" id ='time2-${index}' aria-label="Enter New Time For ${element.time} Here" value="${element.time}"/>
       <button type = 'submit' id = 'enterButton-${index}'> Save Changes </button>
-    </div> </input> </div> </div> 
+    </div> </input> </div>  
       <input ${isChecked} aria-label="Check ${element.toDo} At Index ${index} As Done" id='${element.toDo}-checkbox-${index}'></input>
     </li>
   `;
@@ -98,6 +126,7 @@ function addLi(element, index) {
     "alphabeticalSortButton-"
   );
   alphabeticalSortButton.addEventListener("click", callSortAlpabetical);
+  hideTextboxDiv(enterButton);
 }
 
 function callSortAlpabetical(event) {
@@ -148,12 +177,18 @@ function sortTimes(toDoList) {
   });
 }
 
-function hideTextboxDiv(event) {
-  const index = event.target.id.split("-")[1];
+function hideTextboxDiv(enterButton) {
+  debugger;
+  if (enterButton.id !== undefined) {
+    var index = enterButton.id.split("-")[1];
+  } else if ((enterButton + "").split("-")[0] === "enterButton") {
+    var index = enterButton.split("-")[1];
+  } else {
+    var index = enterButton.target.id.split("-")[1];
+  }
   const textboxsAndEnter = document.getElementById(
     "textboxsAndEnterButton-" + index
   );
-  textboxsAndEnter.classList.toggle("hidden");
   const textForTimeAndToDo = document.getElementById(
     "textForTimeAndToDo-" + index
   );
@@ -161,8 +196,14 @@ function hideTextboxDiv(event) {
   const toDoTextboxText = document.getElementById("toDo2-" + index).value;
   const timeTextboxText = document.getElementById("time2-" + index).value;
   const toDoToUpdate = toDoList[index];
-  if (textForTimeAndToDo.classList.contains("hidden")) {
+  debugger;
+  if (textForTimeAndToDo.classList.contains("hidden") === false) {
     textForTimeAndToDo.classList.toggle("hidden");
+    document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
+    document.getElementById("time-" + index).innerHTML = timeTextboxText;
+  }
+  if (textboxsAndEnter.classList.contains("hidden")) {
+    textForTimeAndToDo.classList.remove("hidden");
     document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
     document.getElementById("time-" + index).innerHTML = timeTextboxText;
   }
