@@ -55,6 +55,7 @@ context("To do app", () => {
     addToDos();
     cy.findByText("Blahhh").click();
     cy.findByLabelText("Enter New Text For Blahhh Here").type("h");
+    cy.wait(150);
     cy.findByRole("button", { name: "Save Changes" }).click();
     cy.findByText("Blahhhh").should("exist");
   });
@@ -63,6 +64,7 @@ context("To do app", () => {
     addToDos();
     cy.findByText("17:29").click();
     cy.findByLabelText("Enter New Time For 17:29 Here").type("17:22");
+    cy.wait(150);
     cy.findByRole("button", { name: "Save Changes" }).click();
     cy.findByText("17:22").should("exist");
   });
