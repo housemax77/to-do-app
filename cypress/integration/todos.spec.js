@@ -68,7 +68,6 @@ context("To do app", () => {
     cy.findByRole("button", { name: "Save Changes" }).click();
     cy.findByText("17:22").should("exist");
   });
-
   it("should support searching todos", () => {
     addToDos();
     cy.findByLabelText("Text To Search To Do").type("Blahhh");
@@ -77,5 +76,12 @@ context("To do app", () => {
         "Text To Search To Do".valueOf("Blahhh Li Index 1".text)
       )
     );
+  });
+  it("should support saving changes on page reload", () => {
+    addToDos();
+    cy.findByText("17:29").click();
+    cy.findByLabelText("Enter New Time For 17:29 Here").type("17:22");
+    cy.reload();
+    cy.findByText("17:22").should("exist");
   });
 });
