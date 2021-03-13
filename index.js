@@ -8,26 +8,27 @@ function getToDoList() {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
   }
 
-  // window.addEventListener("beforeunload", function (event) {
-  //   event.preventDefault();
-  //   const toDoList = getToDoList();
-  //   toDoList.forEach((toDo, index) => {
-  //     // checkBeforeUnload(toDo, index);
-  //   });
-  // });
+  window.addEventListener("beforeunload", function (event) {
+    event.preventDefault();
+    const toDoList = getToDoList();
+    toDoList.forEach((toDo, index) => {
+      checkBeforeUnload(toDo, index);
+    });
+  });
 
-  // function checkBeforeUnload(toDo, index) {
-  //   const timeChanged =
-  //     document.getElementById("time2-" + index).value !== toDo.time;
-  //   const toDoChanged =
-  //     document.getElementById("toDo2-" + index).value !== toDo.toDo;
-  //   const enterButton = "enterButton-" + index;
-  //   // if (toDoChanged === true) {
-  //   hideTextboxDiv(enterButton);
-  // } else if (timeChanged === true) {
-  //   hideTextboxDiv(enterButton);
-  // }
-  // }
+  function checkBeforeUnload(toDo, index) {
+    const timeChanged =
+      document.getElementById("time2-" + index).value !== toDo.time;
+    const toDoChanged =
+      document.getElementById("toDo2-" + index).value !== toDo.toDo;
+    const enterButton = "enterButton-" + index;
+    debugger;
+    if (toDoChanged === true) {
+      hideTextboxDiv(enterButton.split("-")[1]);
+    } else if (timeChanged === true) {
+      hideTextboxDiv(enterButton.split("-")[1]);
+    }
+  }
 
   function whatToSortBy() {
     const getLocalStorage = localStorage.getItem("sortBy");
@@ -116,20 +117,18 @@ function addLi(element, index) {
   const toDoText = document.getElementById("toDo-" + indexToString);
   timeText.addEventListener("click", hideTextDiv);
   toDoText.addEventListener("click", hideTextDiv);
-  enterButton.addEventListener("click", hideTextboxDiv);
+  enterButton.addEventListener("click", handleSort);
   const timeSortButton = document.getElementById("timeSortButton-");
   timeSortButton.addEventListener("click", callSortTimes);
   const alphabeticalSortButton = document.getElementById(
     "alphabeticalSortButton-"
   );
   alphabeticalSortButton.addEventListener("click", sortAlpabetically);
-  // hideTextboxDiv(enterButton);
 }
 
 function sortAlpabetically(event) {
   getToDoList().forEach((element, index) => {
     const timeTextbox = document.getElementById("time2-" + index);
-    debugger;
     document.getElementById("time-" + index).innerHTML = timeTextbox.value;
     document.getElementById(
       "toDo-" + index
@@ -181,8 +180,7 @@ function sortTimes(toDoList) {
   });
 }
 
-function hideTextboxDiv(event) {
-  debugger;
+function handleSort(event) {
   const sortBy = localStorage.getItem("sortBy");
   if (sortBy === "Sorting By Time") {
     callSortTimes();
@@ -190,6 +188,10 @@ function hideTextboxDiv(event) {
     sortAlpabetically(event);
   }
   var index = event.target.id.split("-")[1];
+  hideTextboxDiv(index);
+}
+
+function hideTextboxDiv(index) {
   const textboxAndEnter = document.getElementById(
     "textboxsAndEnterButton-" + index
   );
@@ -203,12 +205,13 @@ function hideTextboxDiv(event) {
   toDoToUpdate.toDo = toDoTextboxText;
   toDoToUpdate.time = timeTextboxText;
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  if (textForTimeAndToDo.classList.contains("hidden")) {
+  textboxAndEnter.classList.toggle("hidden");
+  textForTimeAndToDo.classList.toggle("hidden");
+  debugger;
+  if (textboxAndEnter.classList.contains("hidden")) {
     document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
     document.getElementById("time-" + index).innerHTML = timeTextboxText;
   }
-  textboxAndEnter.classList.toggle("hidden");
-  textForTimeAndToDo.classList.toggle("hidden");
 }
 
 function hideTextDiv(event) {
