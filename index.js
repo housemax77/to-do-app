@@ -215,24 +215,18 @@ function hideTextboxDiv(index) {
   }
 }
 
-// Suggest passing index as arg instead of event.
 function hideTextDiv(event) {
-  const index = event.target.id;
-  // Why get the index in two different ways?
+  const index = event.target.id.split("-")[1];
   const textForTimeAndToDo = document.getElementById(
     "textForTimeAndToDo-" + index
   );
-  debugger;
   textForTimeAndToDo.classList.toggle("hidden");
   const textboxsAndEnter = document.getElementById(
     "textboxsAndEnterButton-" + index
   );
-  if (textboxsAndEnter.classList.contains("hidden")) {
-    textboxsAndEnter.classList.toggle("hidden");
-  }
+  textboxsAndEnter.classList.toggle("hidden");
 }
 
-// Improve name. What does this do?
 function evaluateOnBoxCheck(event) {
   const toDoList = getToDoList();
   const indexThatWasChecked = event.target.id.split("-")[2];
@@ -240,14 +234,13 @@ function evaluateOnBoxCheck(event) {
   const toDoTextbox = document.getElementById("toDo-" + indexThatWasChecked);
   const timeTextbox = document.getElementById("time-" + indexThatWasChecked);
   const liId = "li-" + indexThatWasChecked;
-  debugger;
-  if (event.target.checked === true) {
-    toDoToUpdate.done = true; // You could set this in a single line of code outside of the if/else
+  const isTextboxChecked = event.target.checked;
+  toDoToUpdate.done = isTextboxChecked;
+  if (isTextboxChecked) {
     timeTextbox.removeEventListener("click", hideTextDiv);
     toDoTextbox.removeEventListener("click", hideTextDiv);
     document.getElementById(liId).classList.add("checked");
   } else {
-    toDoToUpdate.done = false;
     document.getElementById(liId).classList.remove("checked");
     timeTextbox.addEventListener("click", hideTextDiv);
     toDoTextbox.addEventListener("click", hideTextDiv);
@@ -273,8 +266,6 @@ function testToDo(toDo, toDoInfo) {
 
   if (toDoInfo.find((todo) => todo.toDo === toDo)) {
     alert("You can not submit duplicate to do's.");
-    // consider keeping their input instead of clearing it out so they can easily correct it.
-    // form.reset();
     return false;
   }
   return true;
@@ -283,31 +274,24 @@ function testToDo(toDo, toDoInfo) {
 function deleteToDo(event) {
   const toDoList = getToDoList();
   const rightIndex = toDoList.indexOf(event.target.id - "-delete");
-
-  // Returning early if confirm is false. Just showing return early pattern
   const userConfirmedDelete = confirm(
     "Do you want to delete " + event.target.id.replace("-delete", "") + "?"
   );
 
   if (!userConfirmedDelete) return false;
-
   toDoList.splice(rightIndex, 1);
-
-  // This is a hack. Find where undefined is being written to toDoList and avoid writing it there.
-  localStorage.setItem(
-    "toDoList",
-    JSON.stringify(toDoList).replace("undefined", "")
-  );
+  localStorage.setItem("toDoList", JSON.stringify(toDoList));
   document.getElementById("List").innerHTML = renderLis();
   toDoList.forEach((element, index) => addLi(element, index));
 }
 
 function testTime(time) {
-  if (time === "") {
+  if (time !== "") {
+    return true;
+  } else {
     alert("You can not submit empty time.");
     return false;
   }
-  return true;
 }
 
 form.addEventListener("submit", handleSubmit);
