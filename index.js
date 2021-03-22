@@ -111,7 +111,7 @@ function addLi(element, index) {
   liArray.push(element.toDo);
   const checkboxQuery = element.toDo + "-checkbox-" + indexToString;
   const checkbox = document.getElementById(checkboxQuery);
-  checkbox.addEventListener("click", boxCheck);
+  checkbox.addEventListener("click", evaluateOnBoxCheck);
   const timeText = document.getElementById("time-" + indexToString);
   const toDoText = document.getElementById("toDo-" + indexToString);
   timeText.addEventListener("click", hideTextDiv);
@@ -180,22 +180,27 @@ function sortTimes(toDoList) {
 }
 
 function handleSort(event) {
+  const index = event.target.id.split("-")[1];
+  const textboxAndEnter = document.getElementById(
+    "textboxsAndEnterButton-" + index
+  );
+  const textForTimeAndToDo = document.getElementById(
+    "textForTimeAndToDo-" + index
+  );
+  textboxAndEnter.classList.toggle("hidden");
+  textForTimeAndToDo.classList.toggle("hidden");
   const sortBy = localStorage.getItem("sortBy");
   if (sortBy === "Sorting By Time") {
     callSortTimes();
   } else if (sortBy === "Sorting Alphabetically") {
     sortAlpabetically(event);
   }
-  var index = event.target.id.split("-")[1];
   hideTextboxDiv(index);
 }
 
 function hideTextboxDiv(index) {
   const textboxAndEnter = document.getElementById(
     "textboxsAndEnterButton-" + index
-  );
-  const textForTimeAndToDo = document.getElementById(
-    "textForTimeAndToDo-" + index
   );
   const toDoList = getToDoList();
   const toDoTextboxText = document.getElementById("toDo2-" + index).value;
@@ -204,8 +209,6 @@ function hideTextboxDiv(index) {
   toDoToUpdate.toDo = toDoTextboxText;
   toDoToUpdate.time = timeTextboxText;
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  textboxAndEnter.classList.toggle("hidden");
-  textForTimeAndToDo.classList.toggle("hidden");
   if (textboxAndEnter.classList.contains("hidden")) {
     document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
     document.getElementById("time-" + index).innerHTML = timeTextboxText;
@@ -213,7 +216,7 @@ function hideTextboxDiv(index) {
 }
 
 function hideTextDiv(event) {
-  var index = event.target.id.split("-")[1];
+  const index = event.target.id.split("-")[1];
   const textForTimeAndToDo = document.getElementById(
     "textForTimeAndToDo-" + index
   );
@@ -221,25 +224,23 @@ function hideTextDiv(event) {
   const textboxsAndEnter = document.getElementById(
     "textboxsAndEnterButton-" + index
   );
-  if (textboxsAndEnter.classList.contains("hidden")) {
-    textboxsAndEnter.classList.toggle("hidden");
-  }
+  textboxsAndEnter.classList.toggle("hidden");
 }
 
-function boxCheck(event) {
+function evaluateOnBoxCheck(event) {
   const toDoList = getToDoList();
   const indexThatWasChecked = event.target.id.split("-")[2];
   const toDoToUpdate = toDoList[indexThatWasChecked];
   const toDoTextbox = document.getElementById("toDo-" + indexThatWasChecked);
   const timeTextbox = document.getElementById("time-" + indexThatWasChecked);
   const liId = "li-" + indexThatWasChecked;
-  if (event.target.checked === true) {
-    toDoToUpdate.done = true;
+  const isTextboxChecked = event.target.checked;
+  toDoToUpdate.done = isTextboxChecked;
+  if (isTextboxChecked) {
     timeTextbox.removeEventListener("click", hideTextDiv);
     toDoTextbox.removeEventListener("click", hideTextDiv);
     document.getElementById(liId).classList.add("checked");
   } else {
-    toDoToUpdate.done = false;
     document.getElementById(liId).classList.remove("checked");
     timeTextbox.addEventListener("click", hideTextDiv);
     toDoTextbox.addEventListener("click", hideTextDiv);
@@ -247,6 +248,7 @@ function boxCheck(event) {
 
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
 }
+
 function renderLis() {
   document.getElementById("List").innerHTML = "";
   getToDoList().forEach((element, index) => addLi(element, index));
@@ -264,37 +266,32 @@ function testToDo(toDo, toDoInfo) {
 
   if (toDoInfo.find((todo) => todo.toDo === toDo)) {
     alert("You can not submit duplicate to do's.");
-    form.reset();
     return false;
   }
   return true;
 }
+
 function deleteToDo(event) {
   const toDoList = getToDoList();
   const rightIndex = toDoList.indexOf(event.target.id - "-delete");
-  if (
-    confirm(
-      "Do you want to delete " + event.target.id.replace("-delete", "") + "?"
-    )
-  ) {
-    toDoList.splice(rightIndex, 1);
-    localStorage.setItem(
-      "toDoList",
-      JSON.stringify(toDoList).replace("undefined", "")
-    );
-    document.getElementById("List").innerHTML = renderLis();
-    toDoList.forEach((element, index) => addLi(element, index));
-  } else {
-    return false;
-  }
+  const userConfirmedDelete = confirm(
+    "Do you want to delete " + event.target.id.replace("-delete", "") + "?"
+  );
+
+  if (!userConfirmedDelete) return false;
+  toDoList.splice(rightIndex, 1);
+  localStorage.setItem("toDoList", JSON.stringify(toDoList));
+  document.getElementById("List").innerHTML = renderLis();
+  toDoList.forEach((element, index) => addLi(element, index));
 }
 
 function testTime(time) {
-  if (time === "") {
+  if (time !== "") {
+    return true;
+  } else {
     alert("You can not submit empty time.");
     return false;
   }
-  return true;
 }
 
 form.addEventListener("submit", handleSubmit);
