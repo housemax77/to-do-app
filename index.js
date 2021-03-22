@@ -22,7 +22,6 @@ function getToDoList() {
     const toDoChanged =
       document.getElementById("toDo2-" + index).value !== toDo.toDo;
     const enterButton = "enterButton-" + index;
-    debugger;
     if (toDoChanged === true) {
       hideTextboxDiv(enterButton.split("-")[1]);
     } else if (timeChanged === true) {
@@ -112,7 +111,7 @@ function addLi(element, index) {
   liArray.push(element.toDo);
   const checkboxQuery = element.toDo + "-checkbox-" + indexToString;
   const checkbox = document.getElementById(checkboxQuery);
-  checkbox.addEventListener("click", boxCheck);
+  checkbox.addEventListener("click", evaluateOnBoxCheck);
   const timeText = document.getElementById("time-" + indexToString);
   const toDoText = document.getElementById("toDo-" + indexToString);
   timeText.addEventListener("click", hideTextDiv);
@@ -181,22 +180,27 @@ function sortTimes(toDoList) {
 }
 
 function handleSort(event) {
+  const index = event.target.id.split("-")[1];
+  const textboxAndEnter = document.getElementById(
+    "textboxsAndEnterButton-" + index
+  );
+  const textForTimeAndToDo = document.getElementById(
+    "textForTimeAndToDo-" + index
+  );
+  textboxAndEnter.classList.toggle("hidden");
+  textForTimeAndToDo.classList.toggle("hidden");
   const sortBy = localStorage.getItem("sortBy");
   if (sortBy === "Sorting By Time") {
     callSortTimes();
   } else if (sortBy === "Sorting Alphabetically") {
     sortAlpabetically(event);
   }
-  var index = event.target.id.split("-")[1];
   hideTextboxDiv(index);
 }
 
 function hideTextboxDiv(index) {
   const textboxAndEnter = document.getElementById(
     "textboxsAndEnterButton-" + index
-  );
-  const textForTimeAndToDo = document.getElementById(
-    "textForTimeAndToDo-" + index
   );
   const toDoList = getToDoList();
   const toDoTextboxText = document.getElementById("toDo2-" + index).value;
@@ -205,24 +209,20 @@ function hideTextboxDiv(index) {
   toDoToUpdate.toDo = toDoTextboxText;
   toDoToUpdate.time = timeTextboxText;
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  textboxAndEnter.classList.toggle("hidden");
-  textForTimeAndToDo.classList.toggle("hidden");
-  debugger;
   if (textboxAndEnter.classList.contains("hidden")) {
     document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
     document.getElementById("time-" + index).innerHTML = timeTextboxText;
   }
 }
 
+// Suggest passing index as arg instead of event.
 function hideTextDiv(event) {
-  if (event.target.id === null) {
-    var index = document.getElementById(event);
-  } else {
-    var index = event.target.id.split("-")[1];
-  }
+  const index = event.target.id;
+  // Why get the index in two different ways?
   const textForTimeAndToDo = document.getElementById(
     "textForTimeAndToDo-" + index
   );
+  debugger;
   textForTimeAndToDo.classList.toggle("hidden");
   const textboxsAndEnter = document.getElementById(
     "textboxsAndEnterButton-" + index
@@ -232,15 +232,17 @@ function hideTextDiv(event) {
   }
 }
 
-function boxCheck(event) {
+// Improve name. What does this do?
+function evaluateOnBoxCheck(event) {
   const toDoList = getToDoList();
   const indexThatWasChecked = event.target.id.split("-")[2];
   const toDoToUpdate = toDoList[indexThatWasChecked];
   const toDoTextbox = document.getElementById("toDo-" + indexThatWasChecked);
   const timeTextbox = document.getElementById("time-" + indexThatWasChecked);
   const liId = "li-" + indexThatWasChecked;
+  debugger;
   if (event.target.checked === true) {
-    toDoToUpdate.done = true;
+    toDoToUpdate.done = true; // You could set this in a single line of code outside of the if/else
     timeTextbox.removeEventListener("click", hideTextDiv);
     toDoTextbox.removeEventListener("click", hideTextDiv);
     document.getElementById(liId).classList.add("checked");
@@ -253,6 +255,7 @@ function boxCheck(event) {
 
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
 }
+
 function renderLis() {
   document.getElementById("List").innerHTML = "";
   getToDoList().forEach((element, index) => addLi(element, index));
@@ -270,29 +273,33 @@ function testToDo(toDo, toDoInfo) {
 
   if (toDoInfo.find((todo) => todo.toDo === toDo)) {
     alert("You can not submit duplicate to do's.");
-    form.reset();
+    // consider keeping their input instead of clearing it out so they can easily correct it.
+    // form.reset();
     return false;
   }
   return true;
 }
+
 function deleteToDo(event) {
   const toDoList = getToDoList();
   const rightIndex = toDoList.indexOf(event.target.id - "-delete");
-  if (
-    confirm(
-      "Do you want to delete " + event.target.id.replace("-delete", "") + "?"
-    )
-  ) {
-    toDoList.splice(rightIndex, 1);
-    localStorage.setItem(
-      "toDoList",
-      JSON.stringify(toDoList).replace("undefined", "")
-    );
-    document.getElementById("List").innerHTML = renderLis();
-    toDoList.forEach((element, index) => addLi(element, index));
-  } else {
-    return false;
-  }
+
+  // Returning early if confirm is false. Just showing return early pattern
+  const userConfirmedDelete = confirm(
+    "Do you want to delete " + event.target.id.replace("-delete", "") + "?"
+  );
+
+  if (!userConfirmedDelete) return false;
+
+  toDoList.splice(rightIndex, 1);
+
+  // This is a hack. Find where undefined is being written to toDoList and avoid writing it there.
+  localStorage.setItem(
+    "toDoList",
+    JSON.stringify(toDoList).replace("undefined", "")
+  );
+  document.getElementById("List").innerHTML = renderLis();
+  toDoList.forEach((element, index) => addLi(element, index));
 }
 
 function testTime(time) {
