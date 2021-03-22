@@ -22,7 +22,6 @@ function getToDoList() {
     const toDoChanged =
       document.getElementById("toDo2-" + index).value !== toDo.toDo;
     const enterButton = "enterButton-" + index;
-    debugger;
     if (toDoChanged === true) {
       hideTextboxDiv(enterButton.split("-")[1]);
     } else if (timeChanged === true) {
@@ -207,7 +206,6 @@ function hideTextboxDiv(index) {
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
   textboxAndEnter.classList.toggle("hidden");
   textForTimeAndToDo.classList.toggle("hidden");
-  debugger;
   if (textboxAndEnter.classList.contains("hidden")) {
     document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
     document.getElementById("time-" + index).innerHTML = timeTextboxText;
@@ -215,11 +213,7 @@ function hideTextboxDiv(index) {
 }
 
 function hideTextDiv(event) {
-  if (event.target.id === null) {
-    var index = document.getElementById(event);
-  } else {
-    var index = event.target.id.split("-")[1];
-  }
+  var index = event.target.id.split("-")[1];
   const textForTimeAndToDo = document.getElementById(
     "textForTimeAndToDo-" + index
   );
