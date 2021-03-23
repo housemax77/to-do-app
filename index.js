@@ -1,13 +1,16 @@
 // import { event } from "cypress/types/jquery";
 
 function getToDoList() {
+  // Reading from localStorage is "expensive" (in other words, slow and uses a lot of CPU). So, consider writing to a global variable declared at the top of this file, and use it instead of constantly reading from localStorage.
   const toDoListFromLocalStorage = localStorage.getItem("toDoList");
+  // Use ternary to replace if else.
   if (toDoListFromLocalStorage === null) {
     var toDoList = [];
   } else {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
   }
 
+  // This and other crap below are in this function. Suggest moving it out so you don't look so crazy. ;)
   window.addEventListener("beforeunload", function (event) {
     event.preventDefault();
     const toDoList = getToDoList();
@@ -17,11 +20,13 @@ function getToDoList() {
   });
 
   function checkBeforeUnload(toDo, index) {
+    // time2 - huh? What the crap? Better name? Perhaps time-input?
     const timeChanged =
       document.getElementById("time2-" + index).value !== toDo.time;
     const toDoChanged =
       document.getElementById("toDo2-" + index).value !== toDo.toDo;
     const enterButton = "enterButton-" + index;
+    // Unify the checks into a single conditional. In other words, use one if statement that checks if either changed.
     if (toDoChanged === true) {
       hideTextboxDiv(enterButton.split("-")[1]);
     } else if (timeChanged === true) {
@@ -29,7 +34,11 @@ function getToDoList() {
     }
   }
 
+  // Where's the verb in the func name? Functions DO STUFF. Hence, verb.
+  // Oh, I see now. This function is useless. That's why the name lacks a verb. 
+  // What is your goal?
   function whatToSortBy() {
+    // Why are you naming variables like they're functions? A variable doesn't DO STUFF. It HOLDS STUFF. Fix name.
     const getLocalStorage = localStorage.getItem("sortBy");
     const getText = document.getElementById("sortBy");
     if (getLocalStorage === null) {
@@ -58,10 +67,12 @@ function handleSubmit(event) {
   if (isItemValid && isTimeValid) {
     const toDoInfo = {
       done: false,
+      // Use object shorthand (can omit the right side when it matches the left)
       toDo: toDo,
       time: time,
     };
     toDoList.push(toDoInfo);
+    // Rename index to lastElementIndex
     const index = toDoList.length - 1;
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     addLi(toDoInfo, index);
@@ -103,6 +114,7 @@ function addLi(element, index) {
     </li>
   `;
   ol.insertAdjacentHTML("beforeend", li);
+  // Rename to indexAsString
   const indexToString = index.toString();
   const enterButton = document.getElementById("enterButton-" + indexToString);
   const deleteButton = document.getElementById(element.toDo + "-delete");
@@ -139,10 +151,14 @@ function sortAlpabetically(event) {
     toDoList.sort((a, b) => a.toDo.localeCompare(b.toDo));
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     renderLis();
+    // You set sortBy in localStorage above too. Why twice?
     localStorage.setItem("sortBy", "Sorting Alphabetically");
   });
 }
+
 function toDoSort() {
+  // VAR is dead. Prefer const. Consider let. https://wesbos.com/is-var-dead
+  // Also, don't init vars at the top. Declare them on the line they're first needed.
   var input, filter, ol, li, a, i, txtValue;
   input = document.getElementById("searchToDo");
   filter = input.value.toLowerCase();
@@ -166,11 +182,13 @@ function callSortTimes() {
   renderLis();
   document.getElementById("sortBy").innerHTML = "Sorting By Time";
   localStorage.setItem("sortBy", "Sorting By Time");
+  // WHY? Shouldn't be necessary. Instead, change the DOM as needed.
   location.reload;
 }
 
 function sortTimes(toDoList) {
   return toDoList.sort(function (a, b) {
+    // Eliminate redundant .split calls. Do it once and store in var.  
     if (parseInt(a.time.split(":")[0]) - parseInt(b.time.split(":")[0]) === 0) {
       return parseInt(a.time.split(":")[1]) - parseInt(b.time.split(":")[1]);
     } else {
@@ -251,6 +269,8 @@ function evaluateOnBoxCheck(event) {
 
 function renderLis() {
   document.getElementById("List").innerHTML = "";
+  // Can use point-free style here instead if you prefer:
+  // getToDoList().forEach(addLi);
   getToDoList().forEach((element, index) => addLi(element, index));
 }
 
@@ -273,6 +293,7 @@ function testToDo(toDo, toDoInfo) {
 
 function deleteToDo(event) {
   const toDoList = getToDoList();
+  // Why is this called rightIndex? Perhaps indexToDelete?
   const rightIndex = toDoList.indexOf(event.target.id - "-delete");
   const userConfirmedDelete = confirm(
     "Do you want to delete " + event.target.id.replace("-delete", "") + "?"
