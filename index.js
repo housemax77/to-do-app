@@ -9,49 +9,39 @@ function getToDoList() {
   } else {
     var toDoList = JSON.parse(toDoListFromLocalStorage);
   }
-
-  // This and other crap below are in this function. Suggest moving it out so you don't look so crazy. ;)
-  window.addEventListener("beforeunload", function (event) {
-    event.preventDefault();
-    const toDoList = getToDoList();
-    toDoList.forEach((toDo, index) => {
-      checkBeforeUnload(toDo, index);
-    });
-  });
-
-  function checkBeforeUnload(toDo, index) {
-    // time2 - huh? What the crap? Better name? Perhaps time-input?
-    const timeChanged =
-      document.getElementById("time2-" + index).value !== toDo.time;
-    const toDoChanged =
-      document.getElementById("toDo2-" + index).value !== toDo.toDo;
-    const enterButton = "enterButton-" + index;
-    // Unify the checks into a single conditional. In other words, use one if statement that checks if either changed.
-    if (toDoChanged === true) {
-      hideTextboxDiv(enterButton.split("-")[1]);
-    } else if (timeChanged === true) {
-      hideTextboxDiv(enterButton.split("-")[1]);
-    }
-  }
-
-  // Where's the verb in the func name? Functions DO STUFF. Hence, verb.
-  // Oh, I see now. This function is useless. That's why the name lacks a verb.
-  // What is your goal?
-  function whatToSortBy() {
-    // Why are you naming variables like they're functions? A variable doesn't DO STUFF. It HOLDS STUFF. Fix name.
-    const getLocalStorage = localStorage.getItem("sortBy");
-    const getText = document.getElementById("sortBy");
-    if (getLocalStorage === null) {
-      getText.innerHTML = "Not Sorting";
-    } else {
-      getText.innerHTML = getLocalStorage;
-    }
-  }
-
-  whatToSortBy();
-
   return toDoList;
 }
+
+window.addEventListener("beforeunload", function (event) {
+  event.preventDefault();
+  const toDoList = getToDoList();
+  toDoList.forEach((toDo, index) => {
+    checkBeforeUnload(toDo, index);
+  });
+});
+
+function checkBeforeUnload(toDo, index) {
+  const timeChanged =
+    document.getElementById("timeTextbox" + index).value !== toDo.time;
+  const toDoChanged =
+    document.getElementById("toDo2-" + index).value !== toDo.toDo;
+  const enterButton = "enterButton-" + index;
+  if (toDoChanged === true || timeChanged === true) {
+    hideTextboxDiv(enterButton.split("-")[1]);
+  }
+}
+
+function passSortingMethod() {
+  const whatToSortBy = localStorage.getItem("sortBy");
+  const getText = document.getElementById("sortBy");
+  if (whatToSortBy === null) {
+    getText.innerHTML = "Not Sorting";
+  } else {
+    getText.innerHTML = whatToSortBy;
+  }
+}
+
+passSortingMethod();
 
 const liArray = [];
 
@@ -72,10 +62,9 @@ function handleSubmit(event) {
       time: time,
     };
     toDoList.push(toDoInfo);
-    // Rename index to lastElementIndex
-    const index = toDoList.length - 1;
+    const lastElementIndex = toDoList.length - 1;
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
-    addLi(toDoInfo, index);
+    addLi(toDoInfo, lastElementIndex);
     form.reset();
   }
   const sortBy = localStorage.getItem("sortBy");
@@ -107,14 +96,13 @@ function addLi(element, index) {
       <div class = 'hidden' id ='textboxsAndEnterButton-${index}'>
       <input type = "text" id ='toDo2-${index}' aria-label="Enter New Text For ${element.toDo} Here" value="${element.toDo}"/>
       at
-      <input type = "time" id ='time2-${index}' aria-label="Enter New Time For ${element.time} Here" value="${element.time}"/>
+      <input type = "time" id ='timeTextbox${index}' aria-label="Enter New Time For ${element.time} Here" value="${element.time}"/>
       <button type = 'submit' id = 'enterButton-${index}'> Save Changes </button>
     </div> </input> </div>  
       <input ${isChecked} aria-label="Check ${element.toDo} At Index ${index} As Done" id='${element.toDo}-checkbox-${index}'></input>
     </li>
   `;
   ol.insertAdjacentHTML("beforeend", li);
-  // Rename to indexAsString
   const indexToString = index.toString();
   const enterButton = document.getElementById("enterButton-" + indexToString);
   const deleteButton = document.getElementById(element.toDo + "-delete");
@@ -139,7 +127,7 @@ function addLi(element, index) {
 
 function sortAlpabetically(event) {
   getToDoList().forEach((element, index) => {
-    const timeTextbox = document.getElementById("time2-" + index);
+    const timeTextbox = document.getElementById("timeTextbox" + index);
     document.getElementById("time-" + index).innerHTML = timeTextbox.value;
     document.getElementById(
       "toDo-" + index
@@ -151,22 +139,18 @@ function sortAlpabetically(event) {
     toDoList.sort((a, b) => a.toDo.localeCompare(b.toDo));
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     renderLis();
-    // You set sortBy in localStorage above too. Why twice?
-    localStorage.setItem("sortBy", "Sorting Alphabetically");
   });
 }
 
 function toDoSort() {
   // VAR is dead. Prefer const. Consider let. https://wesbos.com/is-var-dead
-  // Also, don't init vars at the top. Declare them on the line they're first needed.
-  var input, filter, ol, li, a, i, txtValue;
-  input = document.getElementById("searchToDo");
-  filter = input.value.toLowerCase();
-  ol = document.getElementById("List");
-  li = ol.getElementsByTagName("li");
+  const input = document.getElementById("searchToDo");
+  const filter = input.value.toLowerCase();
+  const ol = document.getElementById("List");
+  const li = ol.getElementsByTagName("li");
   for (i = 0; i < li.length; i++) {
-    a = document.getElementById("textForSort-" + i);
-    txtValue = a.textContent || a.innerText;
+    const a = document.getElementById("textForSort-" + i);
+    const txtValue = a.textContent || a.innerText;
     if (txtValue.toLowerCase().indexOf(filter) > -1) {
       li[i].style.display = "";
     } else {
@@ -182,17 +166,21 @@ function callSortTimes() {
   renderLis();
   document.getElementById("sortBy").innerHTML = "Sorting By Time";
   localStorage.setItem("sortBy", "Sorting By Time");
-  // WHY? Shouldn't be necessary. Instead, change the DOM as needed.
-  location.reload;
+  debugger;
+  toDoList.forEach((element, index) =>
+    document.getElementById("li-" + index).remove()
+  );
+  toDoList.forEach(addLi);
 }
 
 function sortTimes(toDoList) {
   return toDoList.sort(function (a, b) {
-    // Eliminate redundant .split calls. Do it once and store in var.
-    if (parseInt(a.time.split(":")[0]) - parseInt(b.time.split(":")[0]) === 0) {
-      return parseInt(a.time.split(":")[1]) - parseInt(b.time.split(":")[1]);
+    const splitedTimeA = a.time.split(":");
+    const splitedTimeB = b.time.split(":");
+    if (parseInt(splitedTimeA[0]) - parseInt(splitedTimeB[0]) === 0) {
+      return parseInt(splitedTimeA[1]) - parseInt(splitedTimeB[1]);
     } else {
-      return parseInt(a.time.split(":")[0]) - parseInt(b.time.split(":")[0]);
+      return parseInt(splitedTimeA[0]) - parseInt(splitedTimeB[0]);
     }
   });
 }
@@ -222,7 +210,7 @@ function hideTextboxDiv(index) {
   );
   const toDoList = getToDoList();
   const toDoTextboxText = document.getElementById("toDo2-" + index).value;
-  const timeTextboxText = document.getElementById("time2-" + index).value;
+  const timeTextboxText = document.getElementById("timeTextbox" + index).value;
   const toDoToUpdate = toDoList[index];
   toDoToUpdate.toDo = toDoTextboxText;
   toDoToUpdate.time = timeTextboxText;
