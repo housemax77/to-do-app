@@ -84,9 +84,8 @@ function addLi(element, index) {
   const ol = document.getElementsByTagName("ol")[0];
 
   const li = `${lisId}li-${index}" aria-label='${element.toDo} Li Index ${index}'>
-    <button aria-label='Delete ${element.toDo} To Do' id='${element.toDo}-delete'>Delete</button>
-    <div id = 'textForTimeAndToDo-${index}'>
-      <div id = 'textForSort-${index}'>
+    <button class= "delete-button" aria-label='Delete ${element.toDo} To Do' id='${element.toDo}-delete'>Delete</button>
+    <div aria-label="To Do and time text ${index}" id = 'textForTimeAndToDo-${index}'>
         <div id ='toDo-${index}'>${element.toDo}</div>
           at
       <div id ='time-${index}'>${element.time}
