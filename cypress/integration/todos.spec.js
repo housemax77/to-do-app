@@ -48,7 +48,7 @@ context("To do app", () => {
   it("should support marking as done", () => {
     addToDos();
     cy.findByLabelText("Check Blahhh At Index 1 As Done").click();
-    cy.findByLabelText("Blahhh Li Index 1").should("have.class", "checked");
+    cy.findByLabelText("To Do and time text 1").should("have.class", "checked");
   });
 
   it("should support editing todos", () => {
