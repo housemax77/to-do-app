@@ -235,15 +235,15 @@ function evaluateOnBoxCheck(event) {
   const toDoToUpdate = toDoList[indexThatWasChecked];
   const toDoTextbox = document.getElementById("toDo-" + indexThatWasChecked);
   const timeTextbox = document.getElementById("time-" + indexThatWasChecked);
-  const liId = "li-" + indexThatWasChecked;
+  const textToCheck = "textForTimeAndToDo-" + indexThatWasChecked;
   const isTextboxChecked = event.target.checked;
   toDoToUpdate.done = isTextboxChecked;
   if (isTextboxChecked) {
     timeTextbox.removeEventListener("click", hideTextDiv);
     toDoTextbox.removeEventListener("click", hideTextDiv);
-    document.getElementById(liId).classList.add("checked");
+    document.getElementById(textToCheck).classList.add("checked");
   } else {
-    document.getElementById(liId).classList.remove("checked");
+    document.getElementById(textToCheck).classList.remove("checked");
     timeTextbox.addEventListener("click", hideTextDiv);
     toDoTextbox.addEventListener("click", hideTextDiv);
   }
