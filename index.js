@@ -253,8 +253,6 @@ function evaluateOnBoxCheck(event) {
 
 function renderLis() {
   document.getElementById("List").innerHTML = "";
-  // Can use point-free style here instead if you prefer:
-  // getToDoList().forEach(addLi);
   getToDoList().forEach((element, index) => addLi(element, index));
 }
 
@@ -277,14 +275,13 @@ function testToDo(toDo, toDoInfo) {
 
 function deleteToDo(event) {
   const toDoList = getToDoList();
-  // Why is this called rightIndex? Perhaps indexToDelete?
-  const rightIndex = toDoList.indexOf(event.target.id - "-delete");
+  const indexToDelete = toDoList.indexOf(event.target.id - "-delete");
   const userConfirmedDelete = confirm(
     "Do you want to delete " + event.target.id.replace("-delete", "") + "?"
   );
 
   if (!userConfirmedDelete) return false;
-  toDoList.splice(rightIndex, 1);
+  toDoList.splice(indexToDelete, 1);
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
   document.getElementById("List").innerHTML = renderLis();
   toDoList.forEach((element, index) => addLi(element, index));
