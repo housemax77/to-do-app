@@ -3,12 +3,10 @@
 function getToDoList() {
   // Reading from localStorage is "expensive" (in other words, slow and uses a lot of CPU). So, consider writing to a global variable declared at the top of this file, and use it instead of constantly reading from localStorage.
   const toDoListFromLocalStorage = localStorage.getItem("toDoList");
-  // Use ternary to replace if else.
-  if (toDoListFromLocalStorage === null) {
-    var toDoList = [];
-  } else {
-    var toDoList = JSON.parse(toDoListFromLocalStorage);
-  }
+  const toDoList =
+    toDoListFromLocalStorage === null
+      ? []
+      : JSON.parse(toDoListFromLocalStorage);
   return toDoList;
 }
 
