@@ -147,7 +147,7 @@ function toDoSort() {
   const ol = document.getElementById("List");
   const li = ol.getElementsByTagName("li");
   for (i = 0; i < li.length; i++) {
-    const a = document.getElementById("textForSort-" + i);
+    const a = document.getElementById("textForTimeAndToDo-" + i);
     const txtValue = a.textContent || a.innerText;
     if (txtValue.toLowerCase().indexOf(filter) > -1) {
       li[i].style.display = "";
@@ -164,7 +164,6 @@ function callSortTimes() {
   renderLis();
   document.getElementById("sortBy").innerHTML = "Sorting By Time";
   localStorage.setItem("sortBy", "Sorting By Time");
-  debugger;
   toDoList.forEach((element, index) =>
     document.getElementById("li-" + index).remove()
   );
