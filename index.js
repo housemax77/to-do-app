@@ -19,7 +19,6 @@ window.addEventListener("beforeunload", function (event) {
 });
 
 function checkBeforeUnload(toDo, index) {
-  debugger;
   const timeChanged = document.getElementById("timeTextbox-" + index).value;
   const toDoChanged = document.getElementById("toDo2-" + index).value;
   if (toDoChanged !== toDo.toDo || timeChanged !== toDo.time) {
@@ -97,7 +96,7 @@ function addLi(element, index) {
       <div class = 'hidden' id ='textboxsAndEnterButton-${index}'>
       <input type = "text" id ='toDo2-${index}' aria-label="Enter New Text For ${element.toDo} Here" value="${element.toDo}"/>
       at
-      <input type = "time" id ='timeTextbox${index}' aria-label="Enter New Time For ${element.time} Here" value="${element.time}"/>
+      <input type = "time" id ='timeTextbox-${index}' aria-label="Enter New Time For ${element.time} Here" value="${element.time}"/>
       <button type = 'submit' id = 'enterButton-${index}'> Save Changes </button>
     </div> </input> </div>  
       <input ${isChecked} aria-label="Check ${element.toDo} At Index ${index} As Done" id='${element.toDo}-checkbox-${index}'></input>
@@ -123,7 +122,7 @@ function addLi(element, index) {
 
 function sortAlpabetically(event) {
   getToDoList().forEach((element, index) => {
-    const timeTextbox = document.getElementById("timeTextbox" + index);
+    const timeTextbox = document.getElementById("timeTextbox-" + index);
     document.getElementById("time-" + index).innerHTML = timeTextbox.value;
     document.getElementById(
       "toDo-" + index
