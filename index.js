@@ -15,6 +15,7 @@ window.addEventListener("beforeunload", function (event) {
   const toDoList = getToDoList();
   toDoList.forEach((toDo, index) => {
     checkBeforeUnload(toDo, index);
+
   });
 });
 
@@ -29,6 +30,7 @@ function checkBeforeUnload(toDo, index) {
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     document.getElementById("toDo-" + index).innerHTML = toDoChanged;
     document.getElementById("time-" + index).innerHTML = timeChanged;
+
   }
 }
 
@@ -103,6 +105,7 @@ function addLi(element, index) {
     </li>
   `;
   ol.insertAdjacentHTML("beforeend", li);
+  // Rename to indexAsString
   const indexToString = index.toString();
   const enterButton = document.getElementById("enterButton-" + indexToString);
   const deleteButton = document.getElementById(element.toDo + "-delete");
@@ -251,6 +254,8 @@ function evaluateOnBoxCheck(event) {
 
 function renderLis() {
   document.getElementById("List").innerHTML = "";
+  // Can use point-free style here instead if you prefer:
+  // getToDoList().forEach(addLi);
   getToDoList().forEach((element, index) => addLi(element, index));
 }
 
@@ -274,6 +279,7 @@ function testToDo(toDo, toDoInfo) {
 function deleteToDo(event) {
   const toDoList = getToDoList();
   const indexToDelete = toDoList.indexOf(event.target.id - "-delete");
+
   const userConfirmedDelete = confirm(
     "Do you want to delete " + event.target.id.replace("-delete", "") + "?"
   );
