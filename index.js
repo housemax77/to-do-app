@@ -19,13 +19,17 @@ window.addEventListener("beforeunload", function (event) {
 });
 
 function checkBeforeUnload(toDo, index) {
-  const timeChanged =
-    document.getElementById("timeTextbox" + index).value !== toDo.time;
-  const toDoChanged =
-    document.getElementById("toDo2-" + index).value !== toDo.toDo;
-  const enterButton = "enterButton-" + index;
-  if (toDoChanged === true || timeChanged === true) {
-    hideTextboxDiv(enterButton.split("-")[1]);
+  debugger;
+  const timeChanged = document.getElementById("timeTextbox-" + index).value;
+  const toDoChanged = document.getElementById("toDo2-" + index).value;
+  if (toDoChanged !== toDo.toDo || timeChanged !== toDo.time) {
+    const toDoList = getToDoList();
+    const toDoToUpdate = toDoList[index];
+    toDoToUpdate.toDo = toDoChanged;
+    toDoToUpdate.time = timeChanged;
+    localStorage.setItem("toDoList", JSON.stringify(toDoList));
+    document.getElementById("toDo-" + index).innerHTML = toDoChanged;
+    document.getElementById("time-" + index).innerHTML = timeChanged;
   }
 }
 
