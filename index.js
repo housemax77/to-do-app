@@ -113,13 +113,8 @@ function addLi(element, index) {
   const toDoText = document.getElementById("toDo-" + indexToString);
   timeText.addEventListener("click", hideTextDiv);
   toDoText.addEventListener("click", hideTextDiv);
+  enterButton.addEventListener("click", hideTextboxDiv);
   enterButton.addEventListener("click", handleSort);
-  const timeSortButton = document.getElementById("timeSortButton-");
-  timeSortButton.addEventListener("click", callSortTimes);
-  const alphabeticalSortButton = document.getElementById(
-    "alphabeticalSortButton-"
-  );
-  alphabeticalSortButton.addEventListener("click", sortAlpabetically);
 }
 
 function sortAlpabetically(event) {
@@ -197,7 +192,6 @@ function handleSort(event) {
   } else if (sortBy === "Sorting Alphabetically") {
     sortAlpabetically(event);
   }
-  hideTextboxDiv(index);
 }
 
 function hideTextboxDiv(index) {
