@@ -201,9 +201,11 @@ function handleSort(event) {
 }
 
 function hideTextboxDiv(index) {
-  const textboxAndEnter = document.getElementById(
-    "textboxsAndEnterButton-" + index
-  );
+  if (index.target.id.split("-") === null) {
+    var indexOfToDo = index;
+  } else {
+    var indexOfToDo = index.target.id.split("-")[1];
+  }
   const toDoList = getToDoList();
   const toDoTextboxText = document.getElementById("toDo2-" + index).value;
   const timeTextboxText = document.getElementById("timeTextbox" + index).value;

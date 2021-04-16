@@ -79,7 +79,7 @@ context("To do app", () => {
     );
   });
 
-  it("should support saving changes on page reload", () => {
+  it.only("should support saving changes on page reload", () => {
     addToDos();
     cy.findByText("17:29").click();
     cy.findByLabelText("Enter New Time For 17:29 Here").type("17:22");
