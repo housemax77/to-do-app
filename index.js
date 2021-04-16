@@ -207,16 +207,15 @@ function hideTextboxDiv(index) {
     var indexOfToDo = index.target.id.split("-")[1];
   }
   const toDoList = getToDoList();
-  const toDoTextboxText = document.getElementById("toDo2-" + index).value;
-  const timeTextboxText = document.getElementById("timeTextbox" + index).value;
-  const toDoToUpdate = toDoList[index];
+  const toDoTextboxText = document.getElementById("toDo2-" + indexOfToDo).value;
+  const timeTextboxText = document.getElementById("timeTextbox-" + indexOfToDo)
+    .value;
+  const toDoToUpdate = toDoList[indexOfToDo];
   toDoToUpdate.toDo = toDoTextboxText;
   toDoToUpdate.time = timeTextboxText;
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  if (textboxAndEnter.classList.contains("hidden")) {
-    document.getElementById("toDo-" + index).innerHTML = toDoTextboxText;
-    document.getElementById("time-" + index).innerHTML = timeTextboxText;
-  }
+  document.getElementById("toDo-" + indexOfToDo).innerHTML = toDoTextboxText;
+  document.getElementById("time-" + indexOfToDo).innerHTML = timeTextboxText;
 }
 
 function hideTextDiv(event) {
