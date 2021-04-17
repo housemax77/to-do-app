@@ -48,7 +48,7 @@ context("To do app", () => {
   it("should support marking as done", () => {
     addToDos();
     cy.findByLabelText("Check Blahhh At Index 1 As Done").click();
-    cy.findByLabelText("Blahhh Li Index 1").should("have.class", "checked");
+    cy.findByLabelText("To Do and time text 1").should("have.class", "checked");
   });
 
   it("should support editing todos", () => {
@@ -68,6 +68,7 @@ context("To do app", () => {
     cy.findByRole("button", { name: "Save Changes" }).click();
     cy.findByText("17:22").should("exist");
   });
+
   it("should support searching todos", () => {
     addToDos();
     cy.findByLabelText("Text To Search To Do").type("Blahhh");
@@ -77,11 +78,23 @@ context("To do app", () => {
       )
     );
   });
+
   it("should support saving changes on page reload", () => {
     addToDos();
     cy.findByText("17:29").click();
     cy.findByLabelText("Enter New Time For 17:29 Here").type("17:22");
     cy.reload();
     cy.findByText("17:22").should("exist");
+  });
+
+  it("should support sorting then editing toDos", () => {
+    addToDos();
+    cy.findByLabelText("Sort By Time").click({ force: true });
+    cy.findByLabelText("Check Blahhh At Index 0 As Done").should("exist");
+    cy.findByText("Blahhh").click();
+    cy.findByLabelText("Enter New Text For Blahhh Here").type("h");
+    cy.wait(150);
+    cy.findByRole("button", { name: "Save Changes" }).click();
+    cy.findByText("Blahhhh").should("exist");
   });
 });
