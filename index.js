@@ -35,7 +35,7 @@ function getToDoList() {
   }
 
   // Where's the verb in the func name? Functions DO STUFF. Hence, verb.
-  // Oh, I see now. This function is useless. That's why the name lacks a verb. 
+  // Oh, I see now. This function is useless. That's why the name lacks a verb.
   // What is your goal?
   function whatToSortBy() {
     // Why are you naming variables like they're functions? A variable doesn't DO STUFF. It HOLDS STUFF. Fix name.
@@ -188,7 +188,7 @@ function callSortTimes() {
 
 function sortTimes(toDoList) {
   return toDoList.sort(function (a, b) {
-    // Eliminate redundant .split calls. Do it once and store in var.  
+    // Eliminate redundant .split calls. Do it once and store in var.
     if (parseInt(a.time.split(":")[0]) - parseInt(b.time.split(":")[0]) === 0) {
       return parseInt(a.time.split(":")[1]) - parseInt(b.time.split(":")[1]);
     } else {

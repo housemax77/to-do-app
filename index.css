@@ -13,6 +13,8 @@ body {
 
 .checked {
   text-decoration-line: line-through;
+  color: gray;
+  font-weight: 300;
 }
 
 .hidden {
@@ -23,9 +25,10 @@ body {
   background-color: #126ec4;
   color: rgba(255, 255, 255, 0.911);
   padding-bottom: 10px;
-  font-size: 16px;
+  font-size: 20px;
   border: none;
   margin-bottom: 20px;
+  margin-left: 20px;
 }
 
 .dropdown {
@@ -59,4 +62,35 @@ body {
 
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
+}
+
+#sortBy {
+  font-size: large;
+  margin-left: 20px;
+}
+
+.deleteButton:hover {
+  background-color: red;
+}
+
+#toDo {
+  padding: 5px;
+  margin: 0px 33px 40px 20px;
+}
+
+#searchToDo {
+  margin-left: 107px;
+}
+
+#time {
+  padding: 5px;
+}
+
+#to-do-submit-button {
+  font-size: 15px;
+  padding: 3px;
+}
+
+#list {
+  margin-left: 20px;
 }
